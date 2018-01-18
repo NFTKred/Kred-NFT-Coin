@@ -1,6 +1,6 @@
 {
   "name": "coin",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "",
   "main": "src/coin.js",
   "scripts": {

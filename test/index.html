@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Crypto.Kred Coin Demo</title>
+    <link rel="stylesheet" href="../src/coin.css">
+</head>
+<body>
+    
+<div style="display:inline-block" id="coin1"></div>
+<div style="display:inline-block" id="coin2"></div>
+<div style="display:inline-block" id="coin3"></div>
+
+<script src="../node_modules/circletype/dist/circletype.min.js"></script>
+<script src="../src/coin.js"></script>
+
+<script>
+var coin = new Coin({
+    container: document.getElementById('coin1'),
+    image: 'example-cat.jpg'
+});
+
+var coin = new Coin({
+    container: document.getElementById('coin2'),
+    image: 'example-cat.jpg',
+    width: 500,
+    upperText: 'My Amazing Coin',
+    lowerText: '1Kred - 2',
+    color: 'blue'
+});
+
+var coin = new Coin({
+    container: document.getElementById('coin3'),
+    image: 'example-cat.jpg',
+    width: 100,
+    upperText: 'My Tiny Coin',
+    lowerText: '1Kred - 2',
+    color: 'green'
+});
+</script>
+
+</body>
+</html>

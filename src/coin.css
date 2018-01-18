@@ -1,0 +1,38 @@
+.coin-root {
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.coin-texture, .coin-background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+}
+.coin-texture {
+    background: url("../images/coin-texture.svg") center center no-repeat;
+    background-size: contain;
+}
+.coin-image {
+    position: relative;
+    z-index: 2;
+    width: 67%;
+    height: 67%;
+    left: 18%;
+    margin-top: 15%;
+}
+.coin-upper, .coin-lower {
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    left: 1.5%;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: -1px -1px 1px rgba(0,0,0,0.5);
+}
+.coin-upper {
+    top: 5%;
+}
+.coin-lower {
+    bottom: 7.5%;
+}

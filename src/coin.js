@@ -85,11 +85,11 @@ Coin.prototype.render = function(element) {
 };
 
 function getTextShadow(width) {
-	var y = width / 300;
+	var y = Math.max(1, width / 300);
 	var x = -y;
 	var blur = y * 2;
 	
-	return x + 'px ' + y + 'px ' + blur + 'px rgba(0,0,0,0.75)';
+	return x + 'px ' + y + 'px ' + blur + 'px rgba(0,0,0,0.5)';
 }
 
 if (typeof module === 'object' && typeof module.exports === 'object') {

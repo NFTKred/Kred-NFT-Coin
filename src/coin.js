@@ -30,7 +30,7 @@ Coin.prototype.render = function(element) {
 
 	root.className = 'coin-root';
 	root.style.width = root.style.height = this.width + 'px';
-	root.style.fontSize = 36 * this.width / 400 + 'px';
+	root.style.fontSize = (this.width / 10) + 'px';
 
 	root.innerHTML = `
 <svg version="1.1" class="coin-background"
@@ -77,8 +77,8 @@ Coin.prototype.render = function(element) {
 	var circleTextUpper = new CircleType(textUpper);
 	var circleTextLower = new CircleType(textLower);
 
-	circleTextUpper.radius(175 * this.width / 400);
-	circleTextLower.radius(175 * this.width / 400).dir(-1);
+	circleTextUpper.radius(this.width / 2.2);
+	circleTextLower.radius(this.width / 2.2).dir(-1);
 };
 
 if (typeof module === 'object' && typeof module.exports === 'object') {

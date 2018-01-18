@@ -2,6 +2,7 @@
     position: relative;
     font-family: Arial, Helvetica, sans-serif;
     text-align: left;
+    line-height: 1.14375;
 }
 .coin-texture, .coin-background {
     width: 100%;

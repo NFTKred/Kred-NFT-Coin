@@ -18,7 +18,8 @@ function Coin(options) {
 	this.upperText = options.upperText || '';
 	this.lowerText = options.lowerText || '';
 
-	this.color = options.color || '#FAB832';
+	this.backgroundColor = options.backgroundColor || '#FAB832';
+	this.textColor = options.textColor || 'rgba(255,255,255,0.8)';
 
 	if (options.container) {
 		this.render(options.container);
@@ -31,6 +32,8 @@ Coin.prototype.render = function(element) {
 	root.className = 'coin-root';
 	root.style.width = root.style.height = this.width + 'px';
 	root.style.fontSize = (this.width / 10) + 'px';
+	root.style.textShadow = getTextShadow(this.width);
+	root.style.color = this.textColor;
 
 	root.innerHTML = `
 <svg version="1.1" class="coin-background"
@@ -40,7 +43,7 @@ Coin.prototype.render = function(element) {
     xml:space="preserve">
     <g>
         <path fill="${
-			this.color
+			this.backgroundColor
 		}" d="M342.039,0h-23.071C142.805,0,0,142.807,0,318.967c0,176.162,142.805,318.969,318.967,318.969
             c3.863,0,7.705-0.094,11.535-0.23c3.83,0.137,7.671,0.23,11.536,0.23c176.16,0,318.967-142.807,318.967-318.969
             C661.005,142.807,518.199,0,342.039,0z"/>
@@ -80,6 +83,14 @@ Coin.prototype.render = function(element) {
 	circleTextUpper.radius(this.width / 2.2);
 	circleTextLower.radius(this.width / 2.2).dir(-1);
 };
+
+function getTextShadow(width) {
+	var y = width / 300;
+	var x = -y;
+	var blur = y * 2;
+	
+	return x + 'px ' + y + 'px ' + blur + 'px rgba(0,0,0,0.75)';
+}
 
 if (typeof module === 'object' && typeof module.exports === 'object') {
 	module.exports = Coin;

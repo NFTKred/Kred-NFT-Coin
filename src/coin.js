@@ -30,7 +30,7 @@ Coin.prototype.render = function(element) {
 
 	root.className = 'coin-root';
 	root.style.width = root.style.height = this.width + 'px';
-	root.style.fontSize = 32 * this.width / 400 + 'px';
+	root.style.fontSize = 36 * this.width / 400 + 'px';
 
 	root.innerHTML = `
 <svg version="1.1" class="coin-background"

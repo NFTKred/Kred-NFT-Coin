@@ -80,8 +80,8 @@ Coin.prototype.render = function(element) {
 	var circleTextUpper = new CircleType(textUpper);
 	var circleTextLower = new CircleType(textLower);
 
-	circleTextUpper.radius(this.width / 2.2);
-	circleTextLower.radius(this.width / 2.2).dir(-1);
+	circleTextUpper.radius(this.width / 2.23);
+	circleTextLower.radius(this.width / 2.23).dir(-1);
 };
 
 function getTextShadow(width) {

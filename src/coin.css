@@ -19,14 +19,14 @@
     z-index: 2;
     width: 67%;
     height: 67%;
-    left: 18%;
+    left: 18.2%;
     margin-top: 16.5%;
 }
 .coin-upper, .coin-lower {
     position: absolute;
     z-index: 2;
     width: 100%;
-    left: 1.5%;
+    left: 1.7%;
     text-transform: uppercase;
     font-weight: bold;
 }

@@ -82,6 +82,15 @@ Coin.prototype.render = function(element) {
 
 	circleTextUpper.radius(this.width / 2.23);
 	circleTextLower.radius(this.width / 2.23).dir(-1);
+
+	this.root = root;
+};
+
+Coin.prototype.destroy = function () {
+	if (this.root) {
+		this.root.parentElement.removeChild(this.root);
+		this.root = null;
+	}
 };
 
 function getTextShadow(width) {

@@ -38,7 +38,7 @@ Coin.prototype.render = function(element) {
 	viewBox="0 0 661.005 638.627" enable-background="new 0 0 661.005 638.627"
 	xml:space="preserve">
 <path fill="${
-	this.backgroundColor
+	cleanAttribute(this.backgroundColor)
 }" d="M342.039,0h-23.071C142.805,0,0,142.807,0,318.967c0,176.162,142.806,318.969,318.968,318.969
 	c3.863,0,7.705-0.094,11.535-0.23c3.83,0.137,7.671,0.23,11.536,0.23c176.16,0,318.967-142.807,318.967-318.969
 	C661.005,142.807,518.199,0,342.039,0z"/>
@@ -59,19 +59,22 @@ Coin.prototype.render = function(element) {
 		</g>
 		<image clip-path="url(#circle)" height="100%"
 			width="100%" preserveAspectRatio="xMidYMid slice"
-			xlink:href="${this.image}"
+			xlink:href="${cleanAttribute(this.image)}"
 		/>
 	` : '<circle cx="50" cy="50" r="50" fill="rgba(0,0,0,0.2)" />'}
 </svg>
 
-<div class="coin-upper">${this.upperText}</div>
-<div class="coin-lower">${this.lowerText}</div>
+<div class="coin-upper"></div>
+<div class="coin-lower"></div>
 `;
 
 	element.appendChild(root);
 
 	var textUpper = root.querySelector('.coin-upper');
 	var textLower = root.querySelector('.coin-lower');
+
+	textUpper.innerText = this.upperText;
+	textLower.innerText = this.lowerText;
 
 	var circleTextUpper = new CircleType(textUpper);
 	var circleTextLower = new CircleType(textLower);
@@ -88,6 +91,10 @@ Coin.prototype.destroy = function () {
 		this.root = null;
 	}
 };
+
+function cleanAttribute(attr) {
+	return String(attr).replace(/"/g, '');
+}
 
 function getTextShadow(width) {
 	var y = Math.max(1, width / 300);

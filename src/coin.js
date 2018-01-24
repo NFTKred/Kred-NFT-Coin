@@ -37,17 +37,15 @@ Coin.prototype.render = function(element) {
 
 	root.innerHTML = `
 <svg version="1.1" class="coin-background"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-    viewBox="0 0 661.005 637.936" enable-background="new 0 0 661.005 637.936"
-    xml:space="preserve">
-    <g>
-        <path fill="${
-			this.backgroundColor
-		}" d="M342.039,0h-23.071C142.805,0,0,142.807,0,318.967c0,176.162,142.805,318.969,318.967,318.969
-            c3.863,0,7.705-0.094,11.535-0.23c3.83,0.137,7.671,0.23,11.536,0.23c176.16,0,318.967-142.807,318.967-318.969
-            C661.005,142.807,518.199,0,342.039,0z"/>
-    </g>
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	viewBox="0 0 661.005 638.627" enable-background="new 0 0 661.005 638.627"
+	xml:space="preserve">
+<path fill="${
+	this.backgroundColor
+}" d="M342.039,0h-23.071C142.805,0,0,142.807,0,318.967c0,176.162,142.806,318.969,318.968,318.969
+	c3.863,0,7.705-0.094,11.535-0.23c3.83,0.137,7.671,0.23,11.536,0.23c176.16,0,318.967-142.807,318.967-318.969
+	C661.005,142.807,518.199,0,342.039,0z"/>
 </svg>
 
 <div class="coin-texture"></div>

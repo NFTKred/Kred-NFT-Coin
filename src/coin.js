@@ -8,10 +8,6 @@ if (typeof window !== 'undefined' && window.CircleType) {
 }
 
 function Coin(options) {
-	if (!options.image) {
-		throw new Error('image is required');
-	}
-
 	this.image = options.image;
 
 	this.width = options.width || 400;
@@ -55,15 +51,17 @@ Coin.prototype.render = function(element) {
     xmlns="http://www.w3.org/2000/svg"
     xlink="http://www.w3.org/1999/xlink"
     version="1.1">
-    <g>
-        <clipPath id="circle">
-            <circle cx="50" cy="50" r="50"/>
-        </clipPath>
-    </g> 
-    <image clip-path="url(#circle)" height="100%"
-        width="100%" preserveAspectRatio="xMidYMid slice"
-        xlink:href="${this.image}"
-        />
+	${this.image ? `
+		<g>
+			<clipPath id="circle">
+				<circle cx="50" cy="50" r="50" />
+			</clipPath>
+		</g>
+		<image clip-path="url(#circle)" height="100%"
+			width="100%" preserveAspectRatio="xMidYMid slice"
+			xlink:href="${this.image}"
+		/>
+	` : '<circle cx="50" cy="50" r="50" fill="rgba(0,0,0,0.2)" />'}
 </svg>
 
 <div class="coin-upper">${this.upperText}</div>

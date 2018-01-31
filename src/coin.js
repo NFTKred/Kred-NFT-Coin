@@ -11,6 +11,7 @@ if (typeof window !== 'undefined' && window.CircleType) {
 function Coin(options) {
 	this.instance = instanceCounter++;
 	this.image = options.image;
+	this.video = options.video;
 
 	this.width = options.width || 400;
 	this.upperText = options.upperText || '';
@@ -36,7 +37,9 @@ Coin.prototype.render = function(element) {
 	root.innerHTML =
 		getBackgroundSVG(this.backgroundColor) +
 		'<div class="coin-texture"></div>' +
-		getCoinImageSVG(this.image, this.instance) +
+		(this.video
+			? getCoinVideoSVG(this.video, this.instance)
+			: getCoinImageSVG(this.image, this.instance)) +
 		'<div class="coin-upper"></div>' +
 		'<div class="coin-lower"></div>';
 
@@ -86,11 +89,15 @@ function getCoinImageSVG(image, instance) {
 		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
 		(image
 			? '<g>' +
-				'<clipPath id="circle' + instance + '">' +
+				'<clipPath id="circle' +
+				instance +
+				'">' +
 				'<circle cx="50" cy="50" r="50" />' +
 				'</clipPath>' +
 				'</g>' +
-				'<image clip-path="url(#circle' + instance + ')" height="100%" ' +
+				'<image clip-path="url(#circle' +
+				instance +
+				')" height="100%" ' +
 				'width="100%" preserveAspectRatio="xMidYMid slice" ' +
 				'xlink:href="' +
 				cleanAttribute(image) +
@@ -100,6 +107,27 @@ function getCoinImageSVG(image, instance) {
 	);
 }
 
+function getCoinVideoSVG(video, instance) {
+	return (
+		'<svg version="1.1" class="coin-image" width="100%" height="100%" ' +
+		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
+		'<g>' +
+		'<clipPath id="circle' +
+		instance +
+		'">' +
+		'<circle cx="50" cy="50" r="50" />' +
+		'</clipPath>' +
+		'</g>' +
+		'<foreignObject clip-path="url(#circle' +
+		instance +
+		')" height="100%" ' +
+		'width="100%" preserveAspectRatio="xMidYMid slice" ' +
+		'><video autoplay loop muted height="100%"><source src="' +
+		cleanAttribute(video) +
+		'"/></video></foreignObject>' +
+		'</svg>'
+	);
+}
 function cleanAttribute(attr) {
 	return String(attr).replace(/"/g, '');
 }

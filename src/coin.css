@@ -11,7 +11,7 @@
     z-index: 1;
 }
 .coin-texture {
-    background: url("../images/coin-texture.svg") center center no-repeat;
+    background: url("https://d30p8ypma69uhv.cloudfront.net/cryptokred-images/coin-texture.svg") center center no-repeat;
     background-size: contain;
 }
 .coin-image {

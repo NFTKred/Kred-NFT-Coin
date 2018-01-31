@@ -1,4 +1,5 @@
 var CircleType;
+var instanceCounter = 1;
 
 // allowing usage from the browser or CommonJS
 if (typeof window !== 'undefined' && window.CircleType) {
@@ -8,6 +9,7 @@ if (typeof window !== 'undefined' && window.CircleType) {
 }
 
 function Coin(options) {
+	this.instance = instanceCounter++;
 	this.image = options.image;
 
 	this.width = options.width || 400;
@@ -34,7 +36,7 @@ Coin.prototype.render = function(element) {
 	root.innerHTML =
 		getBackgroundSVG(this.backgroundColor) +
 		'<div class="coin-texture"></div>' +
-		getCoinImageSVG(this.image) +
+		getCoinImageSVG(this.image, this.instance) +
 		'<div class="coin-upper"></div>' +
 		'<div class="coin-lower"></div>';
 
@@ -78,17 +80,17 @@ function getBackgroundSVG(backgroundColor) {
 	);
 }
 
-function getCoinImageSVG(image) {
+function getCoinImageSVG(image, instance) {
 	return (
 		'<svg version="1.1" class="coin-image" width="100%" height="100%" ' +
 		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
 		(image
 			? '<g>' +
-				'<clipPath id="circle">' +
+				'<clipPath id="circle' + instance + '">' +
 				'<circle cx="50" cy="50" r="50" />' +
 				'</clipPath>' +
 				'</g>' +
-				'<image clip-path="url(#circle)" height="100%" ' +
+				'<image clip-path="url(#circle' + instance + ')" height="100%" ' +
 				'width="100%" preserveAspectRatio="xMidYMid slice" ' +
 				'xlink:href="' +
 				cleanAttribute(image) +

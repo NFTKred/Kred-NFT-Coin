@@ -121,10 +121,11 @@ function getCoinVideoSVG(video, instance) {
 		'<foreignObject clip-path="url(#circle' +
 		instance +
 		')" height="100%" ' +
-		'width="100%" preserveAspectRatio="xMidYMid slice" ' +
-		'><video autoplay loop muted height="100%"><source src="' +
+		'width="100%" preserveAspectRatio="xMidYMid slice"' +
+		'><video autoplay loop muted style="margin-left:-25%;height:100%"><source src="' +
 		cleanAttribute(video) +
-		'"/></video></foreignObject>' +
+		'"/></video>'+
+		'</foreignObject>' +
 		'</svg>'
 	);
 }

@@ -17,8 +17,7 @@ function Coin(options) {
 	this.upperText = options.upperText || '';
 	this.lowerText = options.lowerText || '';
 
-	this.backgroundColor = options.backgroundColor || '#FAB832';
-	this.textColor = options.textColor || 'rgba(255,255,255,0.8)';
+	this.color = options.color || '#FAB832';
 
 	var patternBase =
 		options.patternBase ||
@@ -39,32 +38,48 @@ Coin.prototype.render = function(element) {
 	root.className = 'coin-root';
 	root.style.width = root.style.height = this.width + 'px';
 	root.style.fontSize = this.width / 10 + 'px';
-	root.style.textShadow = getTextShadow(this.width);
 	root.style.color = this.textColor;
 
 	root.innerHTML =
-		getBackgroundSVG(this.backgroundColor) +
+		getBackgroundSVG(this.color) +
 		'<div class="coin-texture"></div>' +
 		getPatternSVG(this.patternURL, this.instance) +
 		(this.video
 			? getCoinVideoSVG(this.video, this.instance)
 			: getCoinImageSVG(this.image, this.instance)) +
+		'<div class="coin-upper-shadow"></div>' +
 		'<div class="coin-upper"></div>' +
+		'<div class="coin-lower-shadow"></div>' +
 		'<div class="coin-lower"></div>';
 
 	element.appendChild(root);
 
 	var textUpper = root.querySelector('.coin-upper');
 	var textLower = root.querySelector('.coin-lower');
+	var textUpperShadow = root.querySelector('.coin-upper-shadow');
+	var textLowerShadow = root.querySelector('.coin-lower-shadow');
 
 	textUpper.innerText = this.upperText;
 	textLower.innerText = this.lowerText;
+	textUpperShadow.innerText = this.upperText;
+	textLowerShadow.innerText = this.lowerText;
+
+	textUpperShadow.style.color = this.color;
+	textLowerShadow.style.color = this.color;
+
+	var textShadow = getTextShadow(this.width);
+	textUpperShadow.style.textShadow = textShadow;
+	textLowerShadow.style.textShadow = textShadow;
 
 	var circleTextUpper = new CircleType(textUpper);
 	var circleTextLower = new CircleType(textLower);
+	var circleTextUpperShadow = new CircleType(textUpperShadow);
+	var circleTextLowerShadow = new CircleType(textLowerShadow);
 
 	circleTextUpper.radius(this.width / 2.23);
+	circleTextUpperShadow.radius(this.width / 2.23);
 	circleTextLower.radius(this.width / 2.23).dir(-1);
+	circleTextLowerShadow.radius(this.width / 2.23).dir(-1);
 
 	this.root = root;
 };
@@ -87,7 +102,7 @@ function getImageSize(url, callback) {
 	image.src = url;
 }
 
-function getBackgroundSVG(backgroundColor) {
+function getBackgroundSVG(color) {
 	return (
 		'<svg version="1.1" class="coin-background" ' +
 		'xmlns="http://www.w3.org/2000/svg" ' +
@@ -95,7 +110,7 @@ function getBackgroundSVG(backgroundColor) {
 		'viewBox="0 0 661.005 638.627" enable-background="new 0 0 661.005 638.627" ' +
 		'xml:space="preserve">' +
 		'<path fill="' +
-		cleanAttribute(backgroundColor) +
+		cleanAttribute(color) +
 		'" d="M342.039,0h-23.071C142.805,0,0,142.807,0,318.967c0,176.162,142.806,318.969,318.968,318.969' +
 		'c3.863,0,7.705-0.094,11.535-0.23c3.83,0.137,7.671,0.23,11.536,0.23c176.16,0,318.967-142.807,318.967-318.969' +
 		'C661.005,142.807,518.199,0,342.039,0z"/>' +
@@ -204,11 +219,9 @@ function cleanAttribute(attr) {
 }
 
 function getTextShadow(width) {
-	var y = Math.max(1, width / 300);
-	var x = -y;
-	var blur = y * 2;
+	var blur = width / 100;
 
-	return x + 'px ' + y + 'px ' + blur + 'px rgba(0,0,0,0.5)';
+	return '0 0 ' + blur + 'px rgba(0,0,0,0.65)';
 }
 
 if (typeof module === 'object' && typeof module.exports === 'object') {

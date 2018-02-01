@@ -3,6 +3,10 @@
     font-family: FontAwesome, Arial, Helvetica, sans-serif;
     text-align: left;
     line-height: 1.14375;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .coin-texture, .coin-background {
     width: 100%;
@@ -30,7 +34,7 @@
     left: 4%;
     margin-top: 2%;
 }
-.coin-upper, .coin-lower {
+.coin-upper, .coin-lower, .coin-upper-shadow, .coin-lower-shadow {
     position: absolute;
     z-index: 2;
     width: 100%;
@@ -38,9 +42,24 @@
     text-transform: uppercase;
     font-weight: bold;
 }
-.coin-upper {
+.coin-upper, .coin-upper-shadow {
     top: 5.25%;
 }
-.coin-lower {
+.coin-lower, .coin-lower-shadow {
     bottom: 5.25%;
+}
+.coin-upper, .coin-lower {
+    z-index: 3;
+}
+.coin-upper span, .coin-lower span {
+    background: linear-gradient(12deg,
+        rgba(0,0,0,0.1) 0%, 
+        rgba(0,0,0,0) 40%,
+        rgba(255,255,255,0.2) 50%,
+        rgba(0,0,0,0) 60%,
+        rgba(0,0,0,0.1) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }

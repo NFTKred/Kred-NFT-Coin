@@ -20,6 +20,14 @@ function Coin(options) {
 	this.backgroundColor = options.backgroundColor || '#FAB832';
 	this.textColor = options.textColor || 'rgba(255,255,255,0.8)';
 
+	var patternBase =
+		options.patternBase ||
+		'https://d30p8ypma69uhv.cloudfront.net/cryptokred-images/';
+
+	this.patternURL = options.pattern
+		? patternBase + options.pattern + '.svg'
+		: false;
+
 	if (options.container) {
 		this.render(options.container);
 	}
@@ -37,6 +45,7 @@ Coin.prototype.render = function(element) {
 	root.innerHTML =
 		getBackgroundSVG(this.backgroundColor) +
 		'<div class="coin-texture"></div>' +
+		getPatternSVG(this.patternURL, this.instance) +
 		(this.video
 			? getCoinVideoSVG(this.video, this.instance)
 			: getCoinImageSVG(this.image, this.instance)) +
@@ -124,11 +133,38 @@ function getCoinVideoSVG(video, instance) {
 		'width="100%" preserveAspectRatio="xMidYMid slice"' +
 		'><video autoplay loop muted style="margin-left:-25%;height:100%"><source src="' +
 		cleanAttribute(video) +
-		'"/></video>'+
+		'"/></video>' +
 		'</foreignObject>' +
 		'</svg>'
 	);
 }
+
+function getPatternSVG(patternURL, instance) {
+	if (!patternURL) {
+		return '';
+	}
+
+	return (
+		'<svg version="1.1" class="coin-pattern" width="100%" height="100%" ' +
+		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
+		'<defs>' +
+		'<pattern id="coin-pattern-' +
+		instance +
+		'" patternUnits="userSpaceOnUse" width="10" height="10">' +
+		'<image xlink:href="' +
+		cleanAttribute(patternURL) +
+		'" x="0" y="0" width="10" height="10" />' +
+		'</pattern>' +
+		'</defs>' +
+		'<g>' +
+		'<circle cx="50" cy="50" r="50" fill="url(#coin-pattern-' +
+		instance +
+		')" />' +
+		'</g>' +
+		'</svg>'
+	);
+}
+
 function cleanAttribute(attr) {
 	return String(attr).replace(/"/g, '');
 }

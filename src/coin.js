@@ -21,7 +21,7 @@ function Coin(options) {
 
 	var patternBase =
 		options.patternBase ||
-		'https://d30p8ypma69uhv.cloudfront.net/cryptokred-images/';
+		'https://static.socialos.net/inspinia/html/crypto/images/patterns/';
 
 	this.patternURL = options.pattern
 		? patternBase + options.pattern + '.svg'

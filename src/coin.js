@@ -76,6 +76,17 @@ Coin.prototype.destroy = function() {
 	}
 };
 
+function getImageSize(url, callback) {
+	var image = new Image();
+	image.onload = function() {
+		callback(image.width, image.height);
+	};
+	image.error = function() {
+		callback(0, 0);
+	};
+	image.src = url;
+}
+
 function getBackgroundSVG(backgroundColor) {
 	return (
 		'<svg version="1.1" class="coin-background" ' +
@@ -144,21 +155,44 @@ function getPatternSVG(patternURL, instance) {
 		return '';
 	}
 
+	var patternID = 'coin-pattern-' + instance;
+
+	getImageSize(patternURL, function(width, height) {
+		var patternWidth = 10,
+			patternHeight = 10;
+
+		if (width && height) {
+			if (width > height) {
+				patternHeight *= height / width;
+			} else {
+				patternWidth *= width / height;
+			}
+		}
+
+		var pattern = document.getElementById(patternID);
+
+		pattern.setAttribute('width', patternWidth);
+		pattern.setAttribute('height', patternHeight);
+
+		pattern.firstElementChild.setAttribute('width', patternWidth);
+		pattern.firstElementChild.setAttribute('height', patternHeight);
+	});
+
 	return (
 		'<svg version="1.1" class="coin-pattern" width="100%" height="100%" ' +
 		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
 		'<defs>' +
-		'<pattern id="coin-pattern-' +
-		instance +
-		'" patternUnits="userSpaceOnUse" width="10" height="10">' +
+		'<pattern id="' +
+		patternID +
+		'" patternUnits="userSpaceOnUse" width="0" height="0">' +
 		'<image xlink:href="' +
 		cleanAttribute(patternURL) +
-		'" x="0" y="0" width="10" height="10" />' +
+		'" x="0" y="0" width="0" height="0" />' +
 		'</pattern>' +
 		'</defs>' +
 		'<g>' +
-		'<circle cx="50" cy="50" r="50" fill="url(#coin-pattern-' +
-		instance +
+		'<circle cx="50" cy="50" r="50" fill="url(#' +
+		patternID +
 		')" />' +
 		'</g>' +
 		'</svg>'

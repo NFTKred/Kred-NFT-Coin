@@ -219,9 +219,9 @@ function cleanAttribute(attr) {
 }
 
 function getTextShadow(width) {
-	var blur = width / 100;
+	//var blur = width / 100;
 
-	return '0 0 ' + blur + 'px rgba(0,0,0,0.65)';
+	return '0 0 1px rgba(0,0,0,0.5)';
 }
 
 if (typeof module === 'object' && typeof module.exports === 'object') {

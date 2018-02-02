@@ -26,6 +26,7 @@ function Coin(options) {
 	this.patternURL = options.pattern
 		? patternBase + options.pattern + '.svg'
 		: false;
+	this.patternColor = options.patternColor || this.color;
 
 	if (options.container) {
 		this.render(options.container);
@@ -40,10 +41,9 @@ Coin.prototype.render = function(element) {
 	root.style.fontSize = this.width / 10 + 'px';
 	root.style.color = this.textColor;
 
-	root.innerHTML =
-		getBackgroundSVG(this.color) +
+	root.innerHTML = getBackgroundSVG(this.color) +
 		'<div class="coin-texture"></div>' +
-		getPatternSVG(this.patternURL, this.instance) +
+		getPatternSVG(this.patternURL, this.patternColor, this.instance) +
 		(this.video
 			? getCoinVideoSVG(this.video, this.instance)
 			: getCoinImageSVG(this.image, this.instance)) +
@@ -165,12 +165,13 @@ function getCoinVideoSVG(video, instance) {
 	);
 }
 
-function getPatternSVG(patternURL, instance) {
+function getPatternSVG(patternURL, color, instance) {
 	if (!patternURL) {
 		return '';
 	}
 
 	var patternID = 'coin-pattern-' + instance;
+	var maskID = patternID + '-mask';
 
 	getImageSize(patternURL, function(width, height) {
 		var patternWidth = 10,
@@ -184,31 +185,54 @@ function getPatternSVG(patternURL, instance) {
 			}
 		}
 
-		var pattern = document.getElementById(patternID);
+		// var mask = document.getElementById(maskID);
 
-		pattern.setAttribute('width', patternWidth);
-		pattern.setAttribute('height', patternHeight);
+		// mask.setAttribute('width', patternWidth);
+		// mask.setAttribute('height', patternHeight);
 
-		pattern.firstElementChild.setAttribute('width', patternWidth);
-		pattern.firstElementChild.setAttribute('height', patternHeight);
+		// mask.firstElementChild.setAttribute('width', patternWidth);
+		// mask.firstElementChild.setAttribute('height', patternHeight);
+
+		// var pattern = document.getElementById(patternID);
+
+		// pattern.setAttribute('width', patternWidth);
+		// pattern.setAttribute('height', patternHeight);
+
+		// pattern.firstElementChild.setAttribute('width', patternWidth);
+		// pattern.firstElementChild.setAttribute('height', patternHeight);
 	});
 
 	return (
 		'<svg version="1.1" class="coin-pattern" width="100%" height="100%" ' +
 		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
 		'<defs>' +
-		'<pattern id="' +
-		patternID +
-		'" patternUnits="userSpaceOnUse" width="0" height="0">' +
+		'<clipPath x="0" y="0" width="10" height="10" id="' +
+		maskID +
+		'">' +
 		'<image xlink:href="' +
 		cleanAttribute(patternURL) +
-		'" x="0" y="0" width="0" height="0" />' +
-		'</pattern>' +
+		'" x="0" y="0" width="10" height="10"/>'+
+		// '<circle cx="5" cy="5" r="5"/>' +
+		'</clipPath>' +
+		// '<pattern id="' +
+		// patternID +
+		// '" patternUnits="userSpaceOnUse">' +
+		// '<rect x="0" y="0" width="10" height="10" fill="' +
+		// cleanAttribute(color) +
+		// '" clip-path="url(#' +
+		// maskID +
+		// ')"/>' +
+		// '</pattern>' +
 		'</defs>' +
 		'<g>' +
-		'<circle cx="50" cy="50" r="50" fill="url(#' +
-		patternID +
-		')" />' +
+		'<rect x="0" y="0" width="10" height="10" fill="' +
+		cleanAttribute(color) +
+		'" clip-path="url(#' +
+		maskID +
+		')"/>' +
+		// '<circle cx="50" cy="50" r="50" fill="url(#' +
+		// patternID +
+		// ')" />' +
 		'</g>' +
 		'</svg>'
 	);

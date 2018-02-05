@@ -17,7 +17,7 @@ function Coin(options) {
 	this.upperText = options.upperText || '';
 	this.lowerText = options.lowerText || '';
 
-	this.color = options.color || '#FAB832';
+	this.color = options.backgroundColor || '#FAB832';
 
 	var patternBase =
 		options.patternBase ||

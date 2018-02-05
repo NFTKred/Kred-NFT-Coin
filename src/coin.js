@@ -8,6 +8,8 @@ if (typeof window !== 'undefined' && window.CircleType) {
 	CircleType = require('circletype');
 }
 
+var requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
+
 function Coin(options) {
 	this.instance = instanceCounter++;
 	this.image = options.image;
@@ -26,6 +28,7 @@ function Coin(options) {
 	this.patternURL = options.pattern
 		? patternBase + options.pattern + '.svg'
 		: false;
+	this.patternColor = options.patternColor || this.color;
 
 	if (options.container) {
 		this.render(options.container);
@@ -39,11 +42,12 @@ Coin.prototype.render = function(element) {
 	root.style.width = root.style.height = this.width + 'px';
 	root.style.fontSize = this.width / 10 + 'px';
 	root.style.color = this.textColor;
+	root.style.opacity = 0;
 
 	root.innerHTML =
 		getBackgroundSVG(this.color) +
 		'<div class="coin-texture"></div>' +
-		getPatternSVG(this.patternURL, this.instance) +
+		getPatternSVG(this.patternURL, this.patternColor, this.instance) +
 		(this.video
 			? getCoinVideoSVG(this.video, this.instance)
 			: getCoinImageSVG(this.image, this.instance)) +
@@ -82,6 +86,11 @@ Coin.prototype.render = function(element) {
 	circleTextLowerShadow.radius(this.width / 2.23).dir(-1);
 
 	this.root = root;
+
+	// give CircleType a chance to process before revealing
+	requestAnimationFrame(function() {
+		root.style.opacity = 1;
+	});
 };
 
 Coin.prototype.destroy = function() {
@@ -91,15 +100,14 @@ Coin.prototype.destroy = function() {
 	}
 };
 
-function getImageSize(url, callback) {
-	var image = new Image();
-	image.onload = function() {
-		callback(image.width, image.height);
+function ajax(url, callback) {
+	var xhr = new XMLHttpRequest(url);
+	xhr.open('GET', url, true);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState != 4 || xhr.status != 200) return;
+		callback(xhr.responseText);
 	};
-	image.error = function() {
-		callback(0, 0);
-	};
-	image.src = url;
+	xhr.send();
 }
 
 function getBackgroundSVG(color) {
@@ -165,14 +173,28 @@ function getCoinVideoSVG(video, instance) {
 	);
 }
 
-function getPatternSVG(patternURL, instance) {
+function getPatternSVG(patternURL, color, instance, callback) {
 	if (!patternURL) {
 		return '';
 	}
 
 	var patternID = 'coin-pattern-' + instance;
 
-	getImageSize(patternURL, function(width, height) {
+	ajax(patternURL, function(svg) {
+		var pattern = document.getElementById(patternID);
+		pattern.innerHTML = svg;
+
+		var image = pattern.firstElementChild;
+
+		// set the color on all the pattern svg contents directly
+		var paths = image.querySelectorAll('*');
+		for (var i = 0; i < paths.length; i++) {
+			paths[i].style.fill = color;
+		}
+
+		var width = +image.getAttribute('width');
+		var height = +image.getAttribute('height');
+
 		var patternWidth = 10,
 			patternHeight = 10;
 
@@ -183,8 +205,6 @@ function getPatternSVG(patternURL, instance) {
 				patternWidth *= width / height;
 			}
 		}
-
-		var pattern = document.getElementById(patternID);
 
 		pattern.setAttribute('width', patternWidth);
 		pattern.setAttribute('height', patternHeight);
@@ -199,16 +219,13 @@ function getPatternSVG(patternURL, instance) {
 		'<defs>' +
 		'<pattern id="' +
 		patternID +
-		'" patternUnits="userSpaceOnUse" width="0" height="0">' +
-		'<image xlink:href="' +
-		cleanAttribute(patternURL) +
-		'" x="0" y="0" width="0" height="0" />' +
+		'" patternUnits="userSpaceOnUse">' +
 		'</pattern>' +
 		'</defs>' +
 		'<g>' +
 		'<circle cx="50" cy="50" r="50" fill="url(#' +
 		patternID +
-		')" />' +
+		')"/>' +
 		'</g>' +
 		'</svg>'
 	);

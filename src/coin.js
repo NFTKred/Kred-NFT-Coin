@@ -221,7 +221,7 @@ function cleanAttribute(attr) {
 function getTextShadow(width) {
 	//var blur = width / 100;
 
-	return '0px 0px 3px rgba(0, 0, 0, 0.6)';
+	return '0.2px 0.2px 1px rgba(0, 0, 0, 0.7), -1px -1px 1px rgb(255, 255, 255)';
 }
 
 if (typeof module === 'object' && typeof module.exports === 'object') {

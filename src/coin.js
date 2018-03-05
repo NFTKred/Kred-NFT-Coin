@@ -165,7 +165,7 @@ function getCoinVideoSVG(video, instance) {
 		instance +
 		')" height="100%" ' +
 		'width="100%" preserveAspectRatio="xMidYMid slice"' +
-		'><video autoplay loop muted style="margin-left:-25%;height:100%"><source src="' +
+		'><video autoplay loop muted style="margin-left:-25%;height:100%!important;width:initial!important"><source src="' +
 		cleanAttribute(video) +
 		'"/></video>' +
 		'</foreignObject>' +

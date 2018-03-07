@@ -8,7 +8,7 @@
 	-ms-user-select: none;
 	user-select: none;
 }
-.coin-texture, .coin-background {
+.coin-texture, .coin-background-pattern {
 	width: 100%;
 	height: 100%;
 	position: absolute;
@@ -18,13 +18,14 @@
 	background: url("https://static.socialos.net/inspinia/html/crypto/images/kredcoin-texture-v3.svg") center center no-repeat;
 	background-size: contain;
 }
-.coin-image {
+.coin-image, .coin-video {
 	position: relative;
-	z-index: 3;
+	z-index: 0;
 	width: 67%;
 	height: 67%;
 	left: 18.2%;
-	margin-top: 16.5%;
+	top: 16.5%;
+	overflow: hidden;
 }
 .coin-pattern {
 	position: absolute;
@@ -60,4 +61,7 @@
 	-webkit-background-clip: text;
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
+}
+.coin-video video {
+	height: 100%;
 }

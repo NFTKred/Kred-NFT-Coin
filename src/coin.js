@@ -45,12 +45,12 @@ Coin.prototype.render = function(element) {
 	root.style.opacity = 0;
 
 	root.innerHTML =
-		getBackgroundSVG(this.color) +
+		getBackgroundSVG(this.color, this.instance) +
 		'<div class="coin-texture"></div>' +
 		getPatternSVG(this.patternURL, this.patternColor, this.instance) +
 		(this.video
-			? getCoinVideoSVG(this.video, this.instance)
-			: getCoinImageSVG(this.image, this.instance)) +
+			? getCoinVideo(this.video, this.instance)
+			: getCoinImage(this.image, this.instance)) +
 		'<div class="coin-upper-shadow"></div>' +
 		'<div class="coin-upper"></div>' +
 		'<div class="coin-lower-shadow"></div>' +
@@ -110,7 +110,21 @@ function ajax(url, callback) {
 	xhr.send();
 }
 
-function getBackgroundSVG(color) {
+function getBackgroundSVG(color, instance) {
+	return (
+		'<svg version="1.1" class="coin-background-pattern" width="100%" height="100%" ' +
+		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
+		'<g>' +
+		'<circle cx="51.7" cy="50" r="37.9" stroke-width="20" fill="transparent" stroke="' +
+		color +
+		'"/>' +
+		'<path d="M 49 2 C -16 2 -16 98 49 98 C 10 98 10 2 49 2" fill="' + color + '"/>' +
+		'</g>' +
+		'</svg>'
+	);
+}
+
+function getBackgroundSVGPattern(color) {
 	return (
 		'<svg version="1.1" class="coin-background" ' +
 		'xmlns="http://www.w3.org/2000/svg" ' +
@@ -126,50 +140,37 @@ function getBackgroundSVG(color) {
 	);
 }
 
-function getCoinImageSVG(image, instance) {
+function getCoinImage(image, instance) {
 	return (
 		'<svg version="1.1" class="coin-image" width="100%" height="100%" ' +
 		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
 		(image
 			? '<g>' +
-				'<clipPath id="circle' +
-				instance +
-				'">' +
-				'<circle cx="50" cy="50" r="50" />' +
-				'</clipPath>' +
-				'</g>' +
-				'<image clip-path="url(#circle' +
-				instance +
-				')" height="100%" ' +
-				'width="100%" preserveAspectRatio="xMidYMid slice" ' +
-				'xlink:href="' +
-				cleanAttribute(image) +
-				'"/>'
+			  '<clipPath id="circle' +
+			  instance +
+			  '">' +
+			  '<circle cx="50" cy="50" r="50" />' +
+			  '</clipPath>' +
+			  '</g>' +
+			  '<image clip-path="url(#circle' +
+			  instance +
+			  ')" height="100%" ' +
+			  'width="100%" preserveAspectRatio="xMidYMid slice" ' +
+			  'xlink:href="' +
+			  cleanAttribute(image) +
+			  '"/>'
 			: '<circle cx="50" cy="50" r="50" fill="rgba(0,0,0,0.2)" />') +
 		'</svg>'
 	);
 }
 
-function getCoinVideoSVG(video, instance) {
+function getCoinVideo(video, instance) {
 	return (
-		'<svg version="1.1" class="coin-image" width="100%" height="100%" ' +
-		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
-		'<g>' +
-		'<clipPath id="circle' +
-		instance +
-		'">' +
-		'<circle cx="50" cy="50" r="50" />' +
-		'</clipPath>' +
-		'</g>' +
-		'<foreignObject clip-path="url(#circle' +
-		instance +
-		')" height="100%" ' +
-		'width="100%" preserveAspectRatio="xMidYMid slice"' +
-		'><video autoplay loop muted style="margin-left:-25%;height:100%"><source src="' +
+		'<div class="coin-video">' +
+		'<video autoplay loop muted><source src="' +
 		cleanAttribute(video) +
 		'"/></video>' +
-		'</foreignObject>' +
-		'</svg>'
+		'</div>'
 	);
 }
 
@@ -220,10 +221,11 @@ function getPatternSVG(patternURL, color, instance, callback) {
 		'<pattern id="' +
 		patternID +
 		'" patternUnits="userSpaceOnUse">' +
+		// SVG contents go in here asynchronously
 		'</pattern>' +
 		'</defs>' +
 		'<g>' +
-		'<circle cx="50" cy="50" r="50" fill="url(#' +
+		'<circle cx="50" cy="50" r="39" stroke-width="20" fill="transparent" stroke="url(#' +
 		patternID +
 		')"/>' +
 		'</g>' +

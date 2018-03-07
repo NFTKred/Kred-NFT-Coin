@@ -115,10 +115,10 @@ function getBackgroundSVG(color, instance) {
 		'<svg version="1.1" class="coin-background-pattern" width="100%" height="100%" ' +
 		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
 		'<g>' +
-		'<circle cx="51.7" cy="50" r="37.9" stroke-width="20" fill="transparent" stroke="' +
+		'<circle cx="51.7" cy="50" r="41" stroke-width="15" fill="transparent" stroke="' +
 		color +
 		'"/>' +
-		'<path d="M 49 2 C -16 2 -16 98 49 98 C 10 98 10 2 49 2" fill="' + color + '"/>' +
+		'<path d="M 50 1.6 C -16.7 1.6 -16.7 98 50 98 C 5 98 5 1.6 50 1.6" fill="' + color + '"/>' +
 		'</g>' +
 		'</svg>'
 	);
@@ -225,7 +225,7 @@ function getPatternSVG(patternURL, color, instance, callback) {
 		'</pattern>' +
 		'</defs>' +
 		'<g>' +
-		'<circle cx="50" cy="50" r="39" stroke-width="20" fill="transparent" stroke="url(#' +
+		'<circle cx="49.8" cy="50" r="42.5" stroke-width="15.3" fill="transparent" stroke="url(#' +
 		patternID +
 		')"/>' +
 		'</g>' +

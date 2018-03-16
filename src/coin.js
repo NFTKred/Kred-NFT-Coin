@@ -183,6 +183,9 @@ function getPatternSVG(patternURL, color, instance, callback) {
 
 	ajax(patternURL, function(svg) {
 		var pattern = document.getElementById(patternID);
+		if (!pattern) {
+			return '';
+		}
 		pattern.innerHTML = svg;
 
 		var image = pattern.firstElementChild;

@@ -30,6 +30,8 @@ function Coin(options) {
 		: false;
 	this.patternColor = options.patternColor || this.color;
 
+	this.hasLoaded = false;
+
 	if (options.container) {
 		this.render(options.container);
 	}
@@ -37,6 +39,11 @@ function Coin(options) {
 
 Coin.prototype.render = function(element) {
 	var root = document.createElement('div');
+	var self = this;
+	var waitingCount =
+		(this.patternURL ? 1 : 0) +
+		(this.image ? 1 : 0);
+	var loadedCount = 0;
 
 	root.className = 'coin-root';
 	root.style.width = root.style.height = this.width + 'px';
@@ -44,13 +51,36 @@ Coin.prototype.render = function(element) {
 	root.style.color = this.textColor;
 	root.style.opacity = 0;
 
+	function onLoad() {
+		if (++loadedCount === waitingCount) {
+			// render CircleType now, after fontawesome font has (probably) loaded
+			var circleTextUpper = new CircleType(textUpper);
+			var circleTextLower = new CircleType(textLower);
+			var circleTextUpperShadow = new CircleType(textUpperShadow);
+			var circleTextLowerShadow = new CircleType(textLowerShadow);
+			
+			circleTextUpper.radius(self.width / 2.23);
+			circleTextUpperShadow.radius(self.width / 2.23);
+			circleTextLower.radius(self.width / 2.23).dir(-1);
+			circleTextLowerShadow.radius(self.width / 2.23).dir(-1);
+			
+			root.style.opacity = 1;
+			self.hasLoaded = true;
+		}
+	}
+
 	root.innerHTML =
 		getBackgroundSVG(this.color, this.instance) +
 		'<div class="coin-texture"></div>' +
-		getPatternSVG(this.patternURL, this.patternColor, this.instance) +
+		getPatternSVG(
+			this.patternURL,
+			this.patternColor,
+			this.instance,
+			onLoad
+		) +
 		(this.video
 			? getCoinVideo(this.video, this.instance)
-			: getCoinImage(this.image, this.instance)) +
+			: getCoinImage(this.image, this.instance, onLoad)) +
 		'<div class="coin-upper-shadow"></div>' +
 		'<div class="coin-upper"></div>' +
 		'<div class="coin-lower-shadow"></div>' +
@@ -75,22 +105,7 @@ Coin.prototype.render = function(element) {
 	textUpperShadow.style.textShadow = textShadow;
 	textLowerShadow.style.textShadow = textShadow;
 
-	var circleTextUpper = new CircleType(textUpper);
-	var circleTextLower = new CircleType(textLower);
-	var circleTextUpperShadow = new CircleType(textUpperShadow);
-	var circleTextLowerShadow = new CircleType(textLowerShadow);
-
-	circleTextUpper.radius(this.width / 2.23);
-	circleTextUpperShadow.radius(this.width / 2.23);
-	circleTextLower.radius(this.width / 2.23).dir(-1);
-	circleTextLowerShadow.radius(this.width / 2.23).dir(-1);
-
 	this.root = root;
-
-	// give CircleType a chance to process before revealing
-	requestAnimationFrame(function() {
-		root.style.opacity = 1;
-	});
 };
 
 Coin.prototype.destroy = function() {
@@ -118,7 +133,9 @@ function getBackgroundSVG(color, instance) {
 		'<circle cx="51.7" cy="50" r="41" stroke-width="15" fill="transparent" stroke="' +
 		color +
 		'"/>' +
-		'<path d="M 50 1.6 C -16.7 1.6 -16.7 98 50 98 C 5 98 5 1.6 50 1.6" fill="' + color + '"/>' +
+		'<path d="M 50 1.6 C -16.7 1.6 -16.7 98 50 98 C 5 98 5 1.6 50 1.6" fill="' +
+		color +
+		'"/>' +
 		'</g>' +
 		'</svg>'
 	);
@@ -140,7 +157,11 @@ function getBackgroundSVGPattern(color) {
 	);
 }
 
-function getCoinImage(image, instance) {
+function getCoinImage(image, instance, callback) {
+	var preload = new Image();
+	preload.onload = callback;
+	preload.src = image;
+
 	return (
 		'<svg version="1.1" class="coin-image" width="100%" height="100%" ' +
 		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
@@ -158,7 +179,7 @@ function getCoinImage(image, instance) {
 			  'width="100%" preserveAspectRatio="xMidYMid slice" ' +
 			  'xlink:href="' +
 			  cleanAttribute(image) +
-			  '"/>'
+			  '" />'
 			: '<circle cx="50" cy="50" r="50" fill="rgba(0,0,0,0.2)" />') +
 		'</svg>'
 	);
@@ -183,7 +204,11 @@ function getPatternSVG(patternURL, color, instance, callback) {
 
 	ajax(patternURL, function(svg) {
 		var pattern = document.getElementById(patternID);
-		pattern.innerHTML = svg;
+
+		var doc = new DOMParser().parseFromString(svg, 'application/xml');
+		pattern.appendChild(
+			pattern.ownerDocument.importNode(doc.documentElement, true)
+		);
 
 		var image = pattern.firstElementChild;
 
@@ -212,6 +237,8 @@ function getPatternSVG(patternURL, color, instance, callback) {
 
 		pattern.firstElementChild.setAttribute('width', patternWidth);
 		pattern.firstElementChild.setAttribute('height', patternHeight);
+
+		callback();
 	});
 
 	return (
@@ -238,8 +265,6 @@ function cleanAttribute(attr) {
 }
 
 function getTextShadow(width) {
-	//var blur = width / 100;
-
 	return '0.2px 0.2px 1px rgba(0, 0, 0, 0.7), -1px -1px 1px rgb(255, 255, 255)';
 }
 

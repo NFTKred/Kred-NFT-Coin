@@ -4,11 +4,16 @@
   "description": "",
   "main": "src/coin.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "http-server -p 14634",
+    "export": "phantomjs ./export/index.js",
+    "test:export": "npm run export -- '{\"image\":\"https://www.nasa.gov/sites/default/files/thumbnails/image/ngc6357.jpg\",\"width\":250,\"upperText\":\"My Amazing Coin\",\"lowerText\":\"1Kred -  2\",\"backgroundColor\":\"blue\",\"pattern\":\"jigsaw\"}' test/image.jpg"
   },
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
-    "circletype": "^2.2.0"
+    "circletype": "^2.2.0",
+    "font-awesome": "^4.7.0",
+    "http-server": "^0.11.1",
+    "phantomjs-prebuilt": "^2.1.16"
   }
 }

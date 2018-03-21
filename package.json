@@ -1,12 +1,12 @@
 {
   "name": "cryptokred-coin",
-  "version": "1.10.1",
+  "version": "1.11.0",
   "description": "",
   "main": "src/coin.js",
   "scripts": {
     "start": "http-server -p 14634",
     "export": "phantomjs ./export/index.js",
-    "test:export": "npm run export -- '{\"image\":\"https://www.nasa.gov/sites/default/files/thumbnails/image/ngc6357.jpg\",\"width\":250,\"upperText\":\"My Amazing Coin\",\"lowerText\":\"1Kred - \uf01e 2\",\"backgroundColor\":\"blue\",\"pattern\":\"jigsaw\"}' test/image.jpg"
+    "test:export": "npm run export -- '{\"image\":\"https://www.nasa.gov/sites/default/files/thumbnails/image/ngc6357.jpg\",\"width\":250,\"upperText\":\"My Amazing Coin\",\"lowerText\":\"1Kred -  2\",\"backgroundColor\":\"blue\",\"pattern\":\"jigsaw\"}' test/image.jpg"
   },
   "author": "",
   "license": "UNLICENSED",

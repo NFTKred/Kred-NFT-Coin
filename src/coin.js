@@ -41,7 +41,6 @@ function Coin(options) {
 
 Coin.prototype.render = function(element) {
 	var root = document.createElement('div');
-	var placeholder = document.createElement('div');
 	var self = this;
 	var waitingCount =
 		(this.patternURL ? 1 : 0) +
@@ -52,14 +51,11 @@ Coin.prototype.render = function(element) {
 		this.animation ? 'animated ' + this.animation : ''
 	);
 
-	placeholder.className = 'coin-root';
-	placeholder.style.width = placeholder.style.height =
-		root.style.width = root.style.height = this.width + 'px';
-
+	root.style.width = root.style.height = this.width + 'px';
 	root.style.fontSize = this.width / 10 + 'px';
 	root.style.color = this.textColor;
-	root.setAttribute('data-loading', 1);
-	
+	root.style.opacity = 0;
+
 	function onLoad() {
 		if (++loadedCount === waitingCount) {
 			ready();
@@ -67,25 +63,19 @@ Coin.prototype.render = function(element) {
 	}
 
 	function ready() {
-		requestAnimationFrame(function () {
-			// render CircleType now, after fontawesome font has (probably) loaded
-			var circleTextUpper = new CircleType(textUpper);
-			var circleTextLower = new CircleType(textLower);
-			var circleTextUpperShadow = new CircleType(textUpperShadow);
-			var circleTextLowerShadow = new CircleType(textLowerShadow);
-			
-			circleTextUpper.radius(self.width / 2.23);
-			circleTextUpperShadow.radius(self.width / 2.23);
-			circleTextLower.radius(self.width / 2.23).dir(-1);
-			circleTextLowerShadow.radius(self.width / 2.23).dir(-1);
-			
-			requestAnimationFrame(function () {
-				root.removeAttribute('data-loading');
-				element.removeChild(placeholder);
-				element.appendChild(root);
-				self.hasLoaded = true;
-			});
-		});
+		// render CircleType now, after fontawesome font has (probably) loaded
+		var circleTextUpper = new CircleType(textUpper);
+		var circleTextLower = new CircleType(textLower);
+		var circleTextUpperShadow = new CircleType(textUpperShadow);
+		var circleTextLowerShadow = new CircleType(textLowerShadow);
+		
+		circleTextUpper.radius(self.width / 2.23);
+		circleTextUpperShadow.radius(self.width / 2.23);
+		circleTextLower.radius(self.width / 2.23).dir(-1);
+		circleTextLowerShadow.radius(self.width / 2.23).dir(-1);
+		
+		root.style.opacity = 1;
+		self.hasLoaded = true;
 	}
 
 	root.innerHTML =
@@ -105,8 +95,7 @@ Coin.prototype.render = function(element) {
 		'<div class="coin-lower-shadow"></div>' +
 		'<div class="coin-lower"></div>';
 
-	element.appendChild(placeholder);
-	document.body.appendChild(root);
+	element.appendChild(root);
 
 	var textUpper = root.querySelector('.coin-upper');
 	var textLower = root.querySelector('.coin-lower');

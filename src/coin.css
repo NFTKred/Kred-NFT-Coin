@@ -1,3 +1,5 @@
+@import url("./vendor/animate.css");
+
 .coin-root {
 	position: relative;
 	font-family: Font Awesome\ 5 Free, FontAwesome, Arial, Helvetica, sans-serif;

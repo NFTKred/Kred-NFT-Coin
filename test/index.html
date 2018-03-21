@@ -20,12 +20,13 @@
 <script>
 var coin = new Coin({
     container: document.getElementById('coin1'),
-    image: 'example-cat.jpg',
+    image: 'https://new4.fjcdn.com/gifs/Chuck+norris+cat_c57304_4328246.gif',
     upperText: 'My Amazing Coin',
     lowerText: '1Kred - 2',
     pattern: 'bathroom-floor',
     // patternBase: '../images/patterns/',
-    patternColor: 'green'
+    patternColor: 'green',
+    animation: 'pulse'
 });
 
 var coin = new Coin({
@@ -36,7 +37,8 @@ var coin = new Coin({
     lowerText: '1Kred - \uf01e 2',
     backgroundColor: 'blue',
     patternBase: '../images/patterns/',
-    pattern: 'jigsaw'
+    pattern: 'jigsaw',
+    animation: 'shake'
 });
 
 var coin = new Coin({
@@ -44,7 +46,8 @@ var coin = new Coin({
     image: 'example-cat.jpg',
     width: 100,
     upperText: 'My Tiny Coin',
-    lowerText: '1Kred - 2'
+    lowerText: '1Kred - 2',
+    animation: 'wobble'
 });
 </script>
 

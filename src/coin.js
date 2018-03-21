@@ -30,6 +30,8 @@ function Coin(options) {
 		: false;
 	this.patternColor = options.patternColor || this.color;
 
+	this.animation = options.animation || false;
+
 	this.hasLoaded = false;
 
 	if (options.container) {
@@ -45,7 +47,10 @@ Coin.prototype.render = function(element) {
 		(this.image ? 1 : 0);
 	var loadedCount = 0;
 
-	root.className = 'coin-root';
+	root.className = 'coin-root ' + (
+		this.animation ? 'animated ' + this.animation : ''
+	);
+
 	root.style.width = root.style.height = this.width + 'px';
 	root.style.fontSize = this.width / 10 + 'px';
 	root.style.color = this.textColor;

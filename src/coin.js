@@ -75,8 +75,10 @@ Coin.prototype.render = function(element) {
 			circleTextLower.radius(self.width / 2.23).dir(-1);
 			circleTextLowerShadow.radius(self.width / 2.23).dir(-1);
 			
-			root.style.opacity = 1;
-			self.hasLoaded = true;
+			requestAnimationFrame(function () {
+				root.style.opacity = 1;
+				self.hasLoaded = true;
+			});
 		});
 	}
 

@@ -10,7 +10,7 @@ if (typeof window !== 'undefined' && window.CircleType) {
 
 var requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
 
-function Coin(options) {
+function Coin(options, callback) {
 	this.instance = instanceCounter++;
 	this.image = options.image;
 	this.video = options.video;
@@ -35,11 +35,11 @@ function Coin(options) {
 	this.hasLoaded = false;
 
 	if (options.container) {
-		this.render(options.container);
+		this.render(options.container, callback);
 	}
 }
 
-Coin.prototype.render = function(element) {
+Coin.prototype.render = function(element, callback) {
 	var root = document.createElement('div');
 	var self = this;
 	var waitingCount =
@@ -76,6 +76,10 @@ Coin.prototype.render = function(element) {
 		
 		root.style.opacity = 1;
 		self.hasLoaded = true;
+
+		if (callback) {
+			callback();
+		}
 	}
 
 	root.innerHTML =

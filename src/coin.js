@@ -63,19 +63,21 @@ Coin.prototype.render = function(element) {
 	}
 
 	function ready() {
-		// render CircleType now, after fontawesome font has (probably) loaded
-		var circleTextUpper = new CircleType(textUpper);
-		var circleTextLower = new CircleType(textLower);
-		var circleTextUpperShadow = new CircleType(textUpperShadow);
-		var circleTextLowerShadow = new CircleType(textLowerShadow);
-		
-		circleTextUpper.radius(self.width / 2.23);
-		circleTextUpperShadow.radius(self.width / 2.23);
-		circleTextLower.radius(self.width / 2.23).dir(-1);
-		circleTextLowerShadow.radius(self.width / 2.23).dir(-1);
-		
-		root.style.opacity = 1;
-		self.hasLoaded = true;
+		requestAnimationFrame(function () {
+			// render CircleType now, after fontawesome font has (probably) loaded
+			var circleTextUpper = new CircleType(textUpper);
+			var circleTextLower = new CircleType(textLower);
+			var circleTextUpperShadow = new CircleType(textUpperShadow);
+			var circleTextLowerShadow = new CircleType(textLowerShadow);
+			
+			circleTextUpper.radius(self.width / 2.23);
+			circleTextUpperShadow.radius(self.width / 2.23);
+			circleTextLower.radius(self.width / 2.23).dir(-1);
+			circleTextLowerShadow.radius(self.width / 2.23).dir(-1);
+			
+			root.style.opacity = 1;
+			self.hasLoaded = true;
+		});
 	}
 
 	root.innerHTML =

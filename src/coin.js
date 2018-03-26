@@ -42,14 +42,11 @@ function Coin(options, callback) {
 Coin.prototype.render = function(element, callback) {
 	var root = document.createElement('div');
 	var self = this;
-	var waitingCount =
-		(this.patternURL ? 1 : 0) +
-		(this.image ? 1 : 0);
+	var waitingCount = (this.patternURL ? 1 : 0) + (this.image ? 1 : 0);
 	var loadedCount = 0;
 
-	root.className = 'coin-root ' + (
-		this.animation ? 'animated ' + this.animation : ''
-	);
+	root.className =
+		'coin-root ' + (this.animation ? 'animated ' + this.animation : '');
 
 	root.style.width = root.style.height = this.width + 'px';
 	root.style.fontSize = this.width / 10 + 'px';
@@ -68,12 +65,12 @@ Coin.prototype.render = function(element, callback) {
 		var circleTextLower = new CircleType(textLower);
 		var circleTextUpperShadow = new CircleType(textUpperShadow);
 		var circleTextLowerShadow = new CircleType(textLowerShadow);
-		
+
 		circleTextUpper.radius(self.width / 2.23);
 		circleTextUpperShadow.radius(self.width / 2.23);
 		circleTextLower.radius(self.width / 2.23).dir(-1);
 		circleTextLowerShadow.radius(self.width / 2.23).dir(-1);
-		
+
 		root.style.opacity = 1;
 		self.hasLoaded = true;
 
@@ -93,7 +90,7 @@ Coin.prototype.render = function(element, callback) {
 		) +
 		(this.video
 			? getCoinVideo(this.video, this.instance)
-			: getCoinImage(this.image, this.instance, onLoad)) +
+			: getCoinImage(this.image, this.color, this.instance, onLoad)) +
 		'<div class="coin-upper-shadow"></div>' +
 		'<div class="coin-upper"></div>' +
 		'<div class="coin-lower-shadow"></div>' +
@@ -174,7 +171,7 @@ function getBackgroundSVGPattern(color) {
 	);
 }
 
-function getCoinImage(image, instance, callback) {
+function getCoinImage(image, backgroundColor, instance, callback) {
 	var preload = new Image();
 	preload.onload = callback;
 	preload.src = image;
@@ -182,6 +179,9 @@ function getCoinImage(image, instance, callback) {
 	return (
 		'<svg version="1.1" class="coin-image" width="100%" height="100%" ' +
 		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
+		'<circle cx="50" cy="50" r="50" fill="' +
+		cleanAttribute(backgroundColor) +
+		'" />' +
 		(image
 			? '<g>' +
 			  '<clipPath id="circle' +
@@ -197,7 +197,7 @@ function getCoinImage(image, instance, callback) {
 			  'xlink:href="' +
 			  cleanAttribute(image) +
 			  '" />'
-			: '<circle cx="50" cy="50" r="50" fill="rgba(0,0,0,0.2)" />') +
+			: '') +
 		'</svg>'
 	);
 }

@@ -18,7 +18,7 @@
 <script src="../src/coin.js"></script>
 
 <script>
-var coin = new Coin({
+var coin1 = new Coin({
     container: document.getElementById('coin1'),
     image: 'http://moziru.com/images/ghostbusters-clipart-transparent-4.png',
     upperText: 'My Amazing Coin',
@@ -29,7 +29,7 @@ var coin = new Coin({
     animation: 'pulse'
 });
 
-var coin = new Coin({
+var coin2 = new Coin({
     container: document.getElementById('coin2'),
     video: 'https://upload.wikimedia.org/wikipedia/commons/2/22/Volcano_Lava_Sample.webm',
     width: 500,
@@ -41,7 +41,7 @@ var coin = new Coin({
     animation: 'shake'
 });
 
-var coin = new Coin({
+var coin3 = new Coin({
     container: document.getElementById('coin3'),
     image: 'example-cat.jpg',
     width: 100,
@@ -50,6 +50,8 @@ var coin = new Coin({
     animation: 'wobble'
 });
 </script>
+
+<button onclick="coin1.animate()">Animate</button>
 
 </body>
 </html>

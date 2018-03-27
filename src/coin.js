@@ -122,6 +122,16 @@ Coin.prototype.render = function(element, callback) {
 	}
 };
 
+Coin.prototype.animate = function () {
+	var root = this.root;
+
+	root.className += ' animate ';
+
+	setTimeout(function () {
+		root.className = root.className.replace(/ animate /g, '');
+	}, 1000);
+};
+
 Coin.prototype.destroy = function() {
 	if (this.root) {
 		this.root.parentElement.removeChild(this.root);

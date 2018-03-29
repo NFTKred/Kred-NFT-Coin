@@ -292,7 +292,7 @@ function cleanAttribute(attr) {
 }
 
 function getTextShadow(width) {
-	return '0.2px 0.2px 1px rgba(0, 0, 0, 0.7), -1px -1px 1px rgb(255, 255, 255)';
+	return '0.1px 0.1px 1px rgba(0, 0, 0, 0.7), -1px -1px 1px rgba(255, 255, 255, 0.5)';
 }
 
 if (typeof module === 'object' && typeof module.exports === 'object') {

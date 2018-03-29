@@ -17,7 +17,7 @@
 	z-index: 1;
 }
 .coin-texture {
-	background: url("https://static.socialos.net/inspinia/html/crypto/images/kredcoin-texture-v3.svg") center center no-repeat;
+	background: url("https://static.socialos.net/inspinia/html/crypto/images/coin-texture.svg") center center no-repeat;
 	background-size: contain;
 }
 .coin-image, .coin-video {

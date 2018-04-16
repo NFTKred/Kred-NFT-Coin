@@ -68,8 +68,8 @@ Coin.prototype.render = function(element) {
 	textUpperShadow.innerText = this.upperText;
 	textLowerShadow.innerText = this.lowerText;
 
-	textUpperShadow.style.color = this.color;
-	textLowerShadow.style.color = this.color;
+	textUpperShadow.style.color = this.textColor || this.color;
+	textLowerShadow.style.color = this.textColor || this.color;
 
 	var textShadow = getTextShadow(this.width);
 	textUpperShadow.style.textShadow = textShadow;

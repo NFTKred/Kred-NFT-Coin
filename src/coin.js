@@ -20,6 +20,7 @@ function Coin(options, callback) {
 	this.lowerText = options.lowerText || '';
 
 	this.color = options.backgroundColor || '#FAB832';
+	this.textColor = options.textColor || '#FAB832';
 
 	var patternBase =
 		options.patternBase ||

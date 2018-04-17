@@ -1,3 +1,5 @@
+@import url("./vendor/animate.css");
+
 .coin-root {
 	position: relative;
 	font-family: Font Awesome\ 5 Free, FontAwesome, Arial, Helvetica, sans-serif;
@@ -15,7 +17,7 @@
 	z-index: 1;
 }
 .coin-texture {
-	background: url("https://static.socialos.net/inspinia/html/crypto/images/kredcoin-texture-v7.svg") center center no-repeat;
+	background: url("https://static.socialos.net/inspinia/html/crypto/images/coin-texture.svg") center center no-repeat;
 	background-size: contain;
 }
 .coin-image, .coin-video {

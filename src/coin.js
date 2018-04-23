@@ -20,6 +20,7 @@ function Coin(options, callback) {
 	this.lowerText = options.lowerText || '';
 
 	this.color = options.backgroundColor || '#FAB832';
+	this.textColor = options.textColor || this.color;
 
 	var patternBase =
 		options.patternBase ||
@@ -108,8 +109,8 @@ Coin.prototype.render = function(element, callback) {
 	textUpperShadow.innerText = this.upperText;
 	textLowerShadow.innerText = this.lowerText;
 
-	textUpperShadow.style.color = this.color;
-	textLowerShadow.style.color = this.color;
+	textUpperShadow.style.color = this.textColor || this.color;
+	textLowerShadow.style.color = this.textColor || this.color;
 
 	var textShadow = getTextShadow(this.width);
 	textUpperShadow.style.textShadow = textShadow;

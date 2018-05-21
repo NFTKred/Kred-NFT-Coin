@@ -10,6 +10,8 @@ if (typeof window !== 'undefined' && window.CircleType) {
 
 var requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
 
+var patternPromiseCache = {};
+
 function Coin(options, callback) {
 	this.instance = instanceCounter++;
 	this.image = options.image;
@@ -123,12 +125,12 @@ Coin.prototype.render = function(element, callback) {
 	}
 };
 
-Coin.prototype.animate = function () {
+Coin.prototype.animate = function() {
 	var root = this.root;
 
 	root.className += ' animate ';
 
-	setTimeout(function () {
+	setTimeout(function() {
 		root.className = root.className.replace(/ animate /g, '');
 	}, 1000);
 };
@@ -139,6 +141,23 @@ Coin.prototype.destroy = function() {
 		this.root = null;
 	}
 };
+
+function loadPattern(url, callback) {
+	// if promises aren't available, just use ajax directly
+	if (typeof Promise === 'undefined') {
+		return ajax(url, callback);
+	}
+
+	// cache the request to load the pattern as a promise, to reuse across coins
+	var promise =
+		patternPromiseCache[url] ||
+		(patternPromiseCache[url] = new Promise(function(resolve) {
+			ajax(url, resolve);
+		}));
+
+	// attach the callback to the promise, either new or cached
+	promise.then(callback);
+}
 
 function ajax(url, callback) {
 	var xhr = new XMLHttpRequest(url);
@@ -230,7 +249,7 @@ function getPatternSVG(patternURL, color, instance, callback) {
 
 	var patternID = 'coin-pattern-' + instance;
 
-	ajax(patternURL, function(svg) {
+	loadPattern(patternURL, function(svg) {
 		var pattern = document.getElementById(patternID);
 
 		var doc = new DOMParser().parseFromString(svg, 'application/xml');

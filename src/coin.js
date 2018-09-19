@@ -235,7 +235,7 @@ function getCoinImage(image, backgroundColor, instance, callback) {
 function getCoinVideo(video, instance) {
 	return (
 		'<div class="coin-video">' +
-		'<video autoplay loop muted><source src="' +
+		'<video autoplay loop muted playsinline><source src="' +
 		cleanAttribute(video) +
 		'"/></video>' +
 		'</div>'

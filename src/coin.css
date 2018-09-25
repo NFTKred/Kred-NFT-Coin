@@ -2,7 +2,7 @@
 
 .coin-root {
 	position: relative;
-	font-family: Font Awesome\ 5 Free, FontAwesome, Arial, Helvetica, sans-serif;
+	font-family: Font Awesome\ 5 Free, FontAwesome, Arial, Helvetica, 'Segoe UI Emoji', sans-serif;
 	text-align: left;
 	line-height: 1.14375;
 	-moz-user-select: none;
@@ -17,17 +17,18 @@
 	z-index: 1;
 }
 .coin-texture {
-	background: url("https://static.socialos.net/inspinia/html/crypto/images/coin-texture.svg") center center no-repeat;
+	background: url("/inspinia/html/crypto/images/kredcoin-texture-v10.svg") center center no-repeat;
 	background-size: contain;
 }
 .coin-image, .coin-video {
 	position: relative;
 	z-index: 0;
-	width: 67%;
-	height: 67%;
-	left: 18.2%;
-	top: 16.5%;
+	width: 75%;
+	height: 75%;
+	left: 14%;
+	top: 12.5%;
 	overflow: hidden;
+	border-radius: 100%;
 }
 .coin-pattern {
 	position: absolute;
@@ -45,10 +46,10 @@
 	font-weight: bold;
 }
 .coin-upper, .coin-upper-shadow {
-	top: 5.25%;
+	top: 3.75%;
 }
 .coin-lower, .coin-lower-shadow {
-	bottom: 5.25%;
+	bottom: 3.75%;
 }
 .coin-upper, .coin-lower {
 	z-index: 3;

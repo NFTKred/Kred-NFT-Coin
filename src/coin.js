@@ -1,13 +1,16 @@
-var CircleType;
+var CircleType, GraphemeSplitter;
 var instanceCounter = 1;
 
 // allowing usage from the browser or CommonJS
-if (typeof window !== 'undefined' && window.CircleType) {
+if (typeof window !== 'undefined' && window.CircleType && window.GraphemeSplitter) {
 	CircleType = window.CircleType;
+	GraphemeSplitter = window.GraphemeSplitter;
 } else {
 	CircleType = require('circletype');
+	GraphemeSplitter = require('grapheme-splitter');
 }
 
+var splitter = new GraphemeSplitter();
 var requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
 
 var patternPromiseCache = {};
@@ -64,10 +67,10 @@ Coin.prototype.render = function(element, callback) {
 
 	function ready() {
 		// render CircleType now, after fontawesome font has (probably) loaded
-		var circleTextUpper = new CircleType(textUpper);
-		var circleTextLower = new CircleType(textLower);
-		var circleTextUpperShadow = new CircleType(textUpperShadow);
-		var circleTextLowerShadow = new CircleType(textLowerShadow);
+		var circleTextUpper = circleType(textUpper);
+		var circleTextLower = circleType(textLower);
+		var circleTextUpperShadow = circleType(textUpperShadow);
+		var circleTextLowerShadow = circleType(textLowerShadow);
 
 		circleTextUpper.radius(self.width / 2.14);
 		circleTextUpperShadow.radius(self.width / 2.14);
@@ -313,6 +316,14 @@ function cleanAttribute(attr) {
 
 function getTextShadow(width) {
 	return '0.1px 0.1px 1px rgba(0, 0, 0, 0.7), -1px -1px 1px rgba(255, 255, 255, 0.5)';
+}
+
+function circleType(text) {
+	return new CircleType(text, splitGraphemes);
+}
+
+function splitGraphemes(text) {
+	return splitter.splitGraphemes(text);
 }
 
 if (typeof module === 'object' && typeof module.exports === 'object') {

@@ -11,7 +11,8 @@
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
-    "circletype": "^2.2.0"
+    "circletype": "^2.3.0",
+    "grapheme-splitter": "^1.0.4"
   },
   "devDependencies": {
     "font-awesome": "^4.7.0",

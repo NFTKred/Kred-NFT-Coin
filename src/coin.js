@@ -67,15 +67,19 @@ Coin.prototype.render = function(element, callback) {
 
 	function ready() {
 		// render CircleType now, after fontawesome font has (probably) loaded
-		var circleTextUpper = circleType(textUpper);
-		var circleTextLower = circleType(textLower);
-		var circleTextUpperShadow = circleType(textUpperShadow);
-		var circleTextLowerShadow = circleType(textLowerShadow);
+		if (self.upperText) {
+			circleType(textUpper).radius(self.width / 2.14);
+			requestAnimationFrame(function () {
+				textUpperShadow.innerHTML = textUpper.innerHTML;
+			});
+		}
 
-		circleTextUpper.radius(self.width / 2.14);
-		circleTextUpperShadow.radius(self.width / 2.14);
-		circleTextLower.radius(self.width / 2.14).dir(-1);
-		circleTextLowerShadow.radius(self.width / 2.14).dir(-1);
+		if (self.lowerText) {
+			circleType(textLower).radius(self.width / 2.14).dir(-1);
+			requestAnimationFrame(function () {
+				textLowerShadow.innerHTML = textLower.innerHTML;
+			});
+		}
 
 		root.style.opacity = 1;
 		self.hasLoaded = true;
@@ -111,8 +115,8 @@ Coin.prototype.render = function(element, callback) {
 
 	textUpper.innerText = this.upperText;
 	textLower.innerText = this.lowerText;
-	textUpperShadow.innerText = this.upperText;
-	textLowerShadow.innerText = this.lowerText;
+	// textUpperShadow.innerText = this.upperText;
+	// textLowerShadow.innerText = this.lowerText;
 
 	textUpperShadow.style.color = this.textColor || this.color;
 	textLowerShadow.style.color = this.textColor || this.color;

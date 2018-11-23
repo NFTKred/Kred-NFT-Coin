@@ -2,7 +2,11 @@ var CircleType, GraphemeSplitter;
 var instanceCounter = 1;
 
 // allowing usage from the browser or CommonJS
-if (typeof window !== 'undefined' && window.CircleType && window.GraphemeSplitter) {
+if (
+	typeof window !== 'undefined' &&
+	window.CircleType &&
+	window.GraphemeSplitter
+) {
 	CircleType = window.CircleType;
 	GraphemeSplitter = window.GraphemeSplitter;
 } else {
@@ -50,13 +54,14 @@ Coin.prototype.render = function(element, callback) {
 	var self = this;
 	var waitingCount = (this.patternURL ? 1 : 0) + (this.image ? 1 : 0);
 	var loadedCount = 0;
+	var fontSize = this.width / 12.5 + 'px';
 
 	root.className =
 		'coin-root ' + (this.animation ? 'animated ' + this.animation : '');
 
 	root.style.width = root.style.height = this.width + 'px';
-	root.style.fontSize = this.width / 12.5 + 'px';
-	root.style.color = this.textColor;
+	// root.style.fontSize = fontSize;
+	// root.style.color = this.textColor;
 	root.style.opacity = 0;
 
 	function onLoad() {
@@ -67,19 +72,19 @@ Coin.prototype.render = function(element, callback) {
 
 	function ready() {
 		// render CircleType now, after fontawesome font has (probably) loaded
-		if (self.upperText) {
-			circleType(textUpper).radius(self.width / 2.14);
-			requestAnimationFrame(function () {
-				textUpperShadow.innerHTML = textUpper.innerHTML;
-			});
-		}
+		// if (self.upperText) {
+		// 	circleType(textUpper).radius(self.width / 2.14);
+		// 	requestAnimationFrame(function () {
+		// 		textUpperShadow.innerHTML = textUpper.innerHTML;
+		// 	});
+		// }
 
-		if (self.lowerText) {
-			circleType(textLower).radius(self.width / 2.14).dir(-1);
-			requestAnimationFrame(function () {
-				textLowerShadow.innerHTML = textLower.innerHTML;
-			});
-		}
+		// if (self.lowerText) {
+		// 	circleType(textLower).radius(self.width / 2.14).dir(-1);
+		// 	requestAnimationFrame(function () {
+		// 		textLowerShadow.innerHTML = textLower.innerHTML;
+		// 	});
+		// }
 
 		root.style.opacity = 1;
 		self.hasLoaded = true;
@@ -101,29 +106,30 @@ Coin.prototype.render = function(element, callback) {
 		(this.video
 			? getCoinVideo(this.video, this.instance)
 			: getCoinImage(this.image, this.color, this.instance, onLoad)) +
-		'<div class="coin-upper-shadow"></div>' +
-		'<div class="coin-upper"></div>' +
-		'<div class="coin-lower-shadow"></div>' +
-		'<div class="coin-lower"></div>';
+		getTextSVG(this.upperText, this.lowerText, this.textColor, this.instance);
+	// '<div class="coin-upper-shadow"></div>' +
+	// '<div class="coin-upper"></div>' +
+	// '<div class="coin-lower-shadow"></div>' +
+	// '<div class="coin-lower"></div>';
 
 	element.appendChild(root);
 
-	var textUpper = root.querySelector('.coin-upper');
-	var textLower = root.querySelector('.coin-lower');
-	var textUpperShadow = root.querySelector('.coin-upper-shadow');
-	var textLowerShadow = root.querySelector('.coin-lower-shadow');
+	// var textUpper = root.querySelector('.coin-upper');
+	// var textLower = root.querySelector('.coin-lower');
+	// var textUpperShadow = root.querySelector('.coin-upper-shadow');
+	// var textLowerShadow = root.querySelector('.coin-lower-shadow');
 
-	textUpper.innerText = this.upperText;
-	textLower.innerText = this.lowerText;
-	// textUpperShadow.innerText = this.upperText;
-	// textLowerShadow.innerText = this.lowerText;
+	// textUpper.innerText = this.upperText;
+	// textLower.innerText = this.lowerText;
+	// // textUpperShadow.innerText = this.upperText;
+	// // textLowerShadow.innerText = this.lowerText;
 
-	textUpperShadow.style.color = this.textColor || this.color;
-	textLowerShadow.style.color = this.textColor || this.color;
+	// textUpperShadow.style.color = this.textColor || this.color;
+	// textLowerShadow.style.color = this.textColor || this.color;
 
-	var textShadow = getTextShadow(this.width);
-	textUpperShadow.style.textShadow = textShadow;
-	textLowerShadow.style.textShadow = textShadow;
+	// var textShadow = getTextShadow(this.width);
+	// textUpperShadow.style.textShadow = textShadow;
+	// textLowerShadow.style.textShadow = textShadow;
 
 	this.root = root;
 
@@ -178,33 +184,33 @@ function ajax(url, callback) {
 
 function getBackgroundSVG(color, instance) {
 	return (
-	'<svg version="1.1" class="coin-background-pattern" width="100%" height="100%" ' +
-	'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
-	'<g>' +
-	'<circle cx="52" cy="50" r="42.5" stroke-width="11.1" fill="transparent" stroke="' +
-	color +
-	'"/>' +
-	'<path d="M 50 1.9 C -16.7 2 -16.7 98 51.5 98.2 C 3 98 0 6.6 50 2.2" fill="' +
-	color +
-	'"/>' +
-	'</g>' +
-	'</svg>'
+		'<svg version="1.1" class="coin-background-pattern" width="100%" height="100%" ' +
+		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
+		'<g>' +
+		'<circle cx="52" cy="50" r="42.5" stroke-width="11.1" fill="transparent" stroke="' +
+		color +
+		'"/>' +
+		'<path d="M 50 1.9 C -16.7 2 -16.7 98 51.5 98.2 C 3 98 0 6.6 50 2.2" fill="' +
+		color +
+		'"/>' +
+		'</g>' +
+		'</svg>'
 	);
 }
 
 function getBackgroundSVGPattern(color) {
 	return (
-	'<svg version="1.1" class="coin-background" ' +
-	'xmlns="http://www.w3.org/2000/svg" ' +
-	'xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" ' +
-	'viewBox="0 0 661.005 638.627" enable-background="new 0 0 661.005 638.627" ' +
-	'xml:space="preserve">' +
-	'<path fill="' +
-	cleanAttribute(color) +
-	'" d="M342.039,0h-23.071C142.805,0,0,142.807,0,318.967c0,176.162,142.806,318.969,318.968,318.969' +
-	'c3.863,0,7.705-0.094,11.535-0.23c3.83,0.137,7.671,0.23,11.536,0.23c176.16,0,318.967-142.807,318.967-318.969' +
-	'C661.005,142.807,518.199,0,342.039,0z"/>' +
-	'</svg>'
+		'<svg version="1.1" class="coin-background" ' +
+		'xmlns="http://www.w3.org/2000/svg" ' +
+		'xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" ' +
+		'viewBox="0 0 661.005 638.627" enable-background="new 0 0 661.005 638.627" ' +
+		'xml:space="preserve">' +
+		'<path fill="' +
+		cleanAttribute(color) +
+		'" d="M342.039,0h-23.071C142.805,0,0,142.807,0,318.967c0,176.162,142.806,318.969,318.968,318.969' +
+		'c3.863,0,7.705-0.094,11.535-0.23c3.83,0.137,7.671,0.23,11.536,0.23c176.16,0,318.967-142.807,318.967-318.969' +
+		'C661.005,142.807,518.199,0,342.039,0z"/>' +
+		'</svg>'
 	);
 }
 
@@ -214,38 +220,38 @@ function getCoinImage(image, backgroundColor, instance, callback) {
 	preload.src = image;
 
 	return (
-	'<svg version="1.1" class="coin-image" width="100%" height="100%" ' +
-	'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
-	'<circle cx="50" cy="50" r="50" fill="' +
-	cleanAttribute(backgroundColor) +
-	'" />' +
-	(image
-		? '<g>' +
-	'<clipPath id="circle' +
-	instance +
-	'">' +
-	'<circle cx="50" cy="50" r="50" />' +
-	'</clipPath>' +
-	'</g>' +
-	'<image clip-path="url(#circle' +
-	instance +
-	')" height="100%" ' +
-	'width="100%" preserveAspectRatio="xMidYMid slice" ' +
-	'xlink:href="' +
-	cleanAttribute(image) +
-	'" />'
-		: '') +
-	'</svg>'
+		'<svg version="1.1" class="coin-image" width="100%" height="100%" ' +
+		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
+		'<circle cx="50" cy="50" r="50" fill="' +
+		cleanAttribute(backgroundColor) +
+		'" />' +
+		(image
+			? '<g>' +
+			  '<clipPath id="circle' +
+			  instance +
+			  '">' +
+			  '<circle cx="50" cy="50" r="50" />' +
+			  '</clipPath>' +
+			  '</g>' +
+			  '<image clip-path="url(#circle' +
+			  instance +
+			  ')" height="100%" ' +
+			  'width="100%" preserveAspectRatio="xMidYMid slice" ' +
+			  'xlink:href="' +
+			  cleanAttribute(image) +
+			  '" />'
+			: '') +
+		'</svg>'
 	);
 }
 
 function getCoinVideo(video, instance) {
 	return (
-	'<div class="coin-video">' +
-	'<video autoplay loop muted playsinline><source src="' +
-	cleanAttribute(video) +
-	'"/></video>' +
-	'</div>'
+		'<div class="coin-video">' +
+		'<video autoplay loop muted playsinline><source src="' +
+		cleanAttribute(video) +
+		'"/></video>' +
+		'</div>'
 	);
 }
 
@@ -296,21 +302,21 @@ function getPatternSVG(patternURL, color, instance, callback) {
 	});
 
 	return (
-	'<svg version="1.1" class="coin-pattern" width="100%" height="100%" ' +
-	'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
-	'<defs>' +
-	'<pattern id="' +
-	patternID +
-	'" patternUnits="userSpaceOnUse">' +
+		'<svg version="1.1" class="coin-pattern" width="100%" height="100%" ' +
+		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
+		'<defs>' +
+		'<pattern id="' +
+		patternID +
+		'" patternUnits="userSpaceOnUse">' +
 		// SVG contents go in here asynchronously
-	'</pattern>' +
-	'</defs>' +
-	'<g>' +
-	'<circle cx="49.8" cy="50" r="44.4" stroke-width="11.5" fill="transparent" stroke="url(#' +
-	patternID +
-	')"/>' +
-	'</g>' +
-	'</svg>'
+		'</pattern>' +
+		'</defs>' +
+		'<g>' +
+		'<circle cx="49.8" cy="50" r="44.4" stroke-width="11.5" fill="transparent" stroke="url(#' +
+		patternID +
+		')"/>' +
+		'</g>' +
+		'</svg>'
 	);
 }
 
@@ -318,16 +324,56 @@ function cleanAttribute(attr) {
 	return String(attr).replace(/"/g, '');
 }
 
-function getTextShadow(width) {
-	return '0.1px 0.1px 1px rgba(0, 0, 0, 0.7), -1px -1px 1px rgba(255, 255, 255, 0.5)';
-}
+// function getTextShadow(width) {
+// 	return '0.1px 0.1px 1px rgba(0, 0, 0, 0.7), -1px -1px 1px rgba(255, 255, 255, 0.5)';
+// }
 
-function circleType(text) {
-	return new CircleType(text, splitGraphemes);
-}
+// function circleType(text) {
+// 	return new CircleType(text, splitGraphemes);
+// }
 
-function splitGraphemes(text) {
-	return splitter.splitGraphemes(text);
+// function splitGraphemes(text) {
+// 	return splitter.splitGraphemes(text);
+// }
+
+function getTextSVG(upperText, lowerText, textColor, instance) {
+	var circleID = 'coin-text-circle-' + instance;
+	var gradientID = 'coin-text-gradient-' + instance;
+
+	return (
+		'<svg version="1.1" class="coin-text" width="100%" height="100%" ' +
+		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
+		'<defs>' +
+		'<linearGradient id="' +
+		gradientID +
+		'" gradientUnits="userSpaceOnUse" x1="37.67%" y1="108.01%" x2="62.33%" y2="-8.01%">' +
+		'<stop stop-color="#fff" stop-opacity=".3"/>' +
+		'<stop offset=".4" stop-color="#fff" stop-opacity=".2"/>' +
+		'<stop offset=".5" stop-color="#fff" stop-opacity=".4"/>' +
+		'<stop offset=".6" stop-color="#fff" stop-opacity=".2"/>' +
+		'<stop offset="1" stop-color="#fff" stop-opacity=".2"/>' +
+		'</linearGradient>' +
+		'<path id="upper-' +
+		circleID +
+		'" d="M13,50a39,39 0 1,0 78,0a39,39 0 1,0 -78,0"/>'+
+		'<path id="lower-' +
+		circleID +
+		'" d="M7,50a45,45 0 1,0 90,0a45,45 0 1,0 -90,0"/>'+
+		'</defs>' +
+		'<text style="font-size: 8px" fill="'+textColor+'">' +
+		'<textPath xlink:href="#upper-' +
+		circleID +
+		'" startOffset="25%" side="right" text-anchor="middle">' +
+		upperText +
+		'</textPath>' +
+		'<textPath xlink:href="#lower-' +
+		circleID +
+		'" startOffset="25%" side="left" text-anchor="middle">' +
+		lowerText +
+		'</textPath>' +
+		'</text>' +
+		'</svg>'
+	);
 }
 
 if (typeof module === 'object' && typeof module.exports === 'object') {

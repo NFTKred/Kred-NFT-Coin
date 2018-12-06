@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/coin.js",
   "scripts": {
-    "start": "http-server -p 14634",
+    "start": "http-server -c-1 -p 14634",
     "export": "phantomjs ./export/index.js",
     "test:export": "npm run export -- '{\"image\":\"https://www.nasa.gov/sites/default/files/thumbnails/image/ngc6357.jpg\",\"width\":250,\"upperText\":\"My Amazing Coin\",\"lowerText\":\"1Kred -  2\",\"backgroundColor\":\"blue\",\"pattern\":\"jigsaw\"}' test/image.jpg"
   },

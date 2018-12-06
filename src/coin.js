@@ -355,20 +355,20 @@ function getTextSVG(upperText, lowerText, textColor, instance) {
 		'</linearGradient>' +
 		'<path id="upper-' +
 		circleID +
-		'" d="M13,50a39,39 0 1,0 78,0a39,39 0 1,0 -78,0"/>'+
+		'" d="M13,50a39,39 0 1,0 78,0a39,39 0 1,0 -78,0a39,39 0 1,0 78,0a39,39 0 1,0 -78,0"/>'+
 		'<path id="lower-' +
 		circleID +
-		'" d="M7,50a45,45 0 1,0 90,0a45,45 0 1,0 -90,0"/>'+
+		'" d="M7,50a45,45 0 1,0 90,0a45,45 0 1,0 -90,0a45,45 0 1,0 90,0a45,45 0 1,0 -90,0"/>'+
 		'</defs>' +
 		'<text style="font-size: 8px" fill="'+textColor+'">' +
 		'<textPath xlink:href="#upper-' +
 		circleID +
-		'" startOffset="25%" side="right" text-anchor="middle">' +
+		'" startOffset="62.5%" side="right" text-anchor="middle">' +
 		upperText +
 		'</textPath>' +
 		'<textPath xlink:href="#lower-' +
 		circleID +
-		'" startOffset="25%" side="left" text-anchor="middle">' +
+		'" startOffset="62.5%" side="left" text-anchor="middle">' +
 		lowerText +
 		'</textPath>' +
 		'</text>' +

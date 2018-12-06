@@ -43,6 +43,8 @@
 	z-index: 2;
 	width: 100%;
 	left: 1.7%;
+}
+.coin-root, .coin-root span {
 	font-weight: bold;
 }
 .coin-upper, .coin-upper-shadow {

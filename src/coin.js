@@ -1,22 +1,4 @@
-var CircleType, GraphemeSplitter;
 var instanceCounter = 1;
-
-// allowing usage from the browser or CommonJS
-if (
-	typeof window !== 'undefined' &&
-	window.CircleType &&
-	window.GraphemeSplitter
-) {
-	CircleType = window.CircleType;
-	GraphemeSplitter = window.GraphemeSplitter;
-} else {
-	CircleType = require('circletype');
-	GraphemeSplitter = require('grapheme-splitter');
-}
-
-var splitter = new GraphemeSplitter();
-var requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
-
 var patternPromiseCache = {};
 
 function Coin(options, callback) {
@@ -54,14 +36,11 @@ Coin.prototype.render = function(element, callback) {
 	var self = this;
 	var waitingCount = (this.patternURL ? 1 : 0) + (this.image ? 1 : 0);
 	var loadedCount = 0;
-	var fontSize = this.width / 12.5 + 'px';
 
 	root.className =
 		'coin-root ' + (this.animation ? 'animated ' + this.animation : '');
 
 	root.style.width = root.style.height = this.width + 'px';
-	// root.style.fontSize = fontSize;
-	// root.style.color = this.textColor;
 	root.style.opacity = 0;
 
 	function onLoad() {
@@ -71,21 +50,6 @@ Coin.prototype.render = function(element, callback) {
 	}
 
 	function ready() {
-		// render CircleType now, after fontawesome font has (probably) loaded
-		// if (self.upperText) {
-		// 	circleType(textUpper).radius(self.width / 2.14);
-		// 	requestAnimationFrame(function () {
-		// 		textUpperShadow.innerHTML = textUpper.innerHTML;
-		// 	});
-		// }
-
-		// if (self.lowerText) {
-		// 	circleType(textLower).radius(self.width / 2.14).dir(-1);
-		// 	requestAnimationFrame(function () {
-		// 		textLowerShadow.innerHTML = textLower.innerHTML;
-		// 	});
-		// }
-
 		root.style.opacity = 1;
 		self.hasLoaded = true;
 
@@ -95,7 +59,7 @@ Coin.prototype.render = function(element, callback) {
 	}
 
 	root.innerHTML =
-		getBackgroundSVG(this.color, this.instance) +
+		getBackgroundSVG(this.color) +
 		'<div class="coin-texture"></div>' +
 		getPatternSVG(
 			this.patternURL,
@@ -104,32 +68,18 @@ Coin.prototype.render = function(element, callback) {
 			onLoad
 		) +
 		(this.video
-			? getCoinVideo(this.video, this.instance)
+			? getCoinVideo(this.video)
 			: getCoinImage(this.image, this.color, this.instance, onLoad)) +
-		getTextSVG(this.upperText, this.lowerText, this.textColor, this.instance);
-	// '<div class="coin-upper-shadow"></div>' +
-	// '<div class="coin-upper"></div>' +
-	// '<div class="coin-lower-shadow"></div>' +
-	// '<div class="coin-lower"></div>';
+		getTextSVG(
+			this.textColor,
+			this.instance
+		);
+
+	var textPaths = root.querySelectorAll('textPath');
+	textPaths[0].appendChild(document.createTextNode(this.upperText));
+	textPaths[1].appendChild(document.createTextNode(this.lowerText));
 
 	element.appendChild(root);
-
-	// var textUpper = root.querySelector('.coin-upper');
-	// var textLower = root.querySelector('.coin-lower');
-	// var textUpperShadow = root.querySelector('.coin-upper-shadow');
-	// var textLowerShadow = root.querySelector('.coin-lower-shadow');
-
-	// textUpper.innerText = this.upperText;
-	// textLower.innerText = this.lowerText;
-	// // textUpperShadow.innerText = this.upperText;
-	// // textLowerShadow.innerText = this.lowerText;
-
-	// textUpperShadow.style.color = this.textColor || this.color;
-	// textLowerShadow.style.color = this.textColor || this.color;
-
-	// var textShadow = getTextShadow(this.width);
-	// textUpperShadow.style.textShadow = textShadow;
-	// textLowerShadow.style.textShadow = textShadow;
 
 	this.root = root;
 
@@ -182,7 +132,7 @@ function ajax(url, callback) {
 	xhr.send();
 }
 
-function getBackgroundSVG(color, instance) {
+function getBackgroundSVG(color) {
 	return (
 		'<svg version="1.1" class="coin-background-pattern" width="100%" height="100%" ' +
 		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
@@ -194,22 +144,6 @@ function getBackgroundSVG(color, instance) {
 		color +
 		'"/>' +
 		'</g>' +
-		'</svg>'
-	);
-}
-
-function getBackgroundSVGPattern(color) {
-	return (
-		'<svg version="1.1" class="coin-background" ' +
-		'xmlns="http://www.w3.org/2000/svg" ' +
-		'xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" ' +
-		'viewBox="0 0 661.005 638.627" enable-background="new 0 0 661.005 638.627" ' +
-		'xml:space="preserve">' +
-		'<path fill="' +
-		cleanAttribute(color) +
-		'" d="M342.039,0h-23.071C142.805,0,0,142.807,0,318.967c0,176.162,142.806,318.969,318.968,318.969' +
-		'c3.863,0,7.705-0.094,11.535-0.23c3.83,0.137,7.671,0.23,11.536,0.23c176.16,0,318.967-142.807,318.967-318.969' +
-		'C661.005,142.807,518.199,0,342.039,0z"/>' +
 		'</svg>'
 	);
 }
@@ -245,7 +179,7 @@ function getCoinImage(image, backgroundColor, instance, callback) {
 	);
 }
 
-function getCoinVideo(video, instance) {
+function getCoinVideo(video) {
 	return (
 		'<div class="coin-video">' +
 		'<video autoplay loop muted playsinline><source src="' +
@@ -324,19 +258,7 @@ function cleanAttribute(attr) {
 	return String(attr).replace(/"/g, '');
 }
 
-// function getTextShadow(width) {
-// 	return '0.1px 0.1px 1px rgba(0, 0, 0, 0.7), -1px -1px 1px rgba(255, 255, 255, 0.5)';
-// }
-
-// function circleType(text) {
-// 	return new CircleType(text, splitGraphemes);
-// }
-
-// function splitGraphemes(text) {
-// 	return splitter.splitGraphemes(text);
-// }
-
-function getTextSVG(upperText, lowerText, textColor, instance) {
+function getTextSVG(textColor, instance) {
 	var circleID = 'coin-text-circle-' + instance;
 	var gradientID = 'coin-text-gradient-' + instance;
 
@@ -355,21 +277,21 @@ function getTextSVG(upperText, lowerText, textColor, instance) {
 		'</linearGradient>' +
 		'<path id="upper-' +
 		circleID +
-		'" d="M13,50a39,39 0 1 1 78 0a39 39 0 1 1 -78 0a39 39 0 1 1 78 0a39 39 0 1 1 -78 0"/>'+
+		'" d="M13,50a39,39 0 1 1 78 0a39 39 0 1 1 -78 0a39 39 0 1 1 78 0a39 39 0 1 1 -78 0"/>' +
 		'<path id="lower-' +
 		circleID +
-		'" d="M7,50a45,45 0 1,0 90,0a45,45 0 1,0 -90,0a45,45 0 1,0 90,0a45,45 0 1,0 -90,0"/>'+
+		'" d="M7,50a45,45 0 1,0 90,0a45,45 0 1,0 -90,0a45,45 0 1,0 90,0a45,45 0 1,0 -90,0"/>' +
 		'</defs>' +
-		'<text style="font-size: 8px; fill: ' + textColor + '; text-anchor: middle;">' +
+		'<text style="font-size: 8px; fill: ' +
+		textColor +
+		'; text-anchor: middle;">' +
 		'<textPath xlink:href="#upper-' +
 		circleID +
 		'" startOffset="62.5%">' +
-		upperText +
 		'</textPath>' +
 		'<textPath xlink:href="#lower-' +
 		circleID +
 		'" startOffset="62.5%">' +
-		lowerText +
 		'</textPath>' +
 		'</text>' +
 		'</svg>'

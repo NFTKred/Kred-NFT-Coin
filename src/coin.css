@@ -1,8 +1,9 @@
-@import url("./vendor/animate.css");
+@import url('./vendor/animate.css');
 
 .coin-root {
 	position: relative;
-	font-family: Font Awesome\ 5 Free, FontAwesome, Arial, Helvetica, 'Segoe UI Emoji', sans-serif;
+	font-family: Font Awesome\ 5 Free, FontAwesome, Arial, Helvetica,
+		'Segoe UI Emoji', sans-serif;
 	text-align: left;
 	line-height: 1.14375;
 	-moz-user-select: none;
@@ -10,17 +11,20 @@
 	-ms-user-select: none;
 	user-select: none;
 }
-.coin-texture, .coin-background-pattern {
+.coin-texture,
+.coin-background-pattern {
 	width: 100%;
 	height: 100%;
 	position: absolute;
 	z-index: 1;
 }
 .coin-texture {
-	background: url("http://static.socialos.net/inspinia/html/crypto/images/kredcoin-texture-v10.svg") center center no-repeat;
+	background: url('https://static.socialos.net/inspinia/html/crypto/images/kredcoin-texture-v10.svg')
+		center center no-repeat;
 	background-size: contain;
 }
-.coin-image, .coin-video {
+.coin-image,
+.coin-video {
 	position: relative;
 	z-index: 0;
 	width: 75%;
@@ -38,7 +42,10 @@
 	left: 4%;
 	margin-top: 2%;
 }
-.coin-upper, .coin-lower, .coin-upper-shadow, .coin-lower-shadow {
+.coin-upper,
+.coin-lower,
+.coin-upper-shadow,
+.coin-lower-shadow {
 	position: absolute;
 	z-index: 2;
 	width: 100%;
@@ -47,28 +54,42 @@
 .coin-root, .coin-root span {
 	font-weight: bold;
 }
-.coin-upper, .coin-upper-shadow {
+.coin-upper,
+.coin-upper-shadow {
 	top: 3.75%;
 }
-.coin-lower, .coin-lower-shadow {
+.coin-lower,
+.coin-lower-shadow {
 	bottom: 3.75%;
 }
-.coin-upper, .coin-lower {
+.coin-upper,
+.coin-lower {
 	z-index: 3;
-}
-.coin-upper span, .coin-lower span {
-	background: linear-gradient(12deg,
-	rgba(255, 255, 255, 0.3) 0%,
-	rgba(255, 255, 255, 0.2) 40%,
-	rgba(255, 255, 255, 0.4) 50%,
-	rgba(255, 255, 255, 0.2) 60%,
-	rgba(255, 255, 255, 0.2) 100%);
-	-webkit-background-clip: text;
-	background-clip: text;
-	-webkit-text-fill-color: transparent;
 }
 .coin-video video {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+}
+.coin-text {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 3;
+}
+.coin-text textPath {
+	font-weight: bold;
+	text-shadow: 0.1px 0.1px 1px rgba(0, 0, 0, 0.7),
+		-1px -1px 1px rgba(255, 255, 255, 0.5);
+	background: linear-gradient(
+		12deg,
+		rgba(255, 255, 255, 0.3) 0%,
+		rgba(255, 255, 255, 0.2) 40%,
+		rgba(255, 255, 255, 0.4) 50%,
+		rgba(255, 255, 255, 0.2) 60%,
+		rgba(255, 255, 255, 0.2) 100%
+	);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
 }

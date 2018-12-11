@@ -77,7 +77,11 @@ Coin.prototype.render = function(element, callback) {
 
 	var textPaths = root.querySelectorAll('textPath');
 	textPaths[0].appendChild(document.createTextNode(this.upperText));
-	textPaths[1].appendChild(document.createTextNode(this.lowerText));
+	textPaths[1].appendChild(document.createTextNode(this.upperText));
+	textPaths[2].appendChild(document.createTextNode(this.lowerText));
+	textPaths[3].appendChild(document.createTextNode(this.lowerText));
+
+	textPaths[0].style.fill = textPaths[2].style.fill = this.textColor;
 
 	element.appendChild(root);
 
@@ -266,15 +270,13 @@ function getTextSVG(textColor, instance) {
 		'<svg version="1.1" class="coin-text" width="100%" height="100%" ' +
 		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
 		'<defs>' +
-		'<linearGradient id="' +
-		gradientID +
-		'" gradientUnits="userSpaceOnUse" x1="37.67%" y1="108.01%" x2="62.33%" y2="-8.01%">' +
-		'<stop stop-color="#fff" stop-opacity=".3"/>' +
-		'<stop offset=".4" stop-color="#fff" stop-opacity=".2"/>' +
-		'<stop offset=".5" stop-color="#fff" stop-opacity=".4"/>' +
-		'<stop offset=".6" stop-color="#fff" stop-opacity=".2"/>' +
-		'<stop offset="1" stop-color="#fff" stop-opacity=".2"/>' +
-		'</linearGradient>' +
+		// '<radialGradient spreadMethod="pad" gradientTransform="userSpaceOnUse" id="' +
+		// gradientID +
+		// '">' +
+		// '<stop offset="84%" stop-color="#fff" stop-opacity=".1"/>'+
+		// '<stop offset="88%" stop-color="#fff" stop-opacity=".4"/>'+
+		// '<stop offset="92%" stop-color="#fff" stop-opacity=".1"/>'+
+		// '</radialGradient>'+
 		'<path id="upper-' +
 		circleID +
 		'" d="M13,50a39,39 0 1 1 78 0a39 39 0 1 1 -78 0a39 39 0 1 1 78 0a39 39 0 1 1 -78 0"/>' +
@@ -282,16 +284,22 @@ function getTextSVG(textColor, instance) {
 		circleID +
 		'" d="M7,50a45,45 0 1,0 90,0a45,45 0 1,0 -90,0a45,45 0 1,0 90,0a45,45 0 1,0 -90,0"/>' +
 		'</defs>' +
-		'<text style="font-size: 8px; fill: ' +
-		textColor +
-		'; text-anchor: middle;">' +
+		'<text style="font-size: 8px; text-anchor: middle">' +
 		'<textPath xlink:href="#upper-' +
 		circleID +
-		'" startOffset="62.5%">' +
+		'" startOffset="62.5%" fill="' + textColor + '">' +
+		'</textPath>' +
+		'<textPath xlink:href="#upper-' +
+		circleID +
+		'" startOffset="62.5%" fill="#FFF" fill-opacity="0.1">'+ // style="fill:url(#' + gradientID + ')">' +
 		'</textPath>' +
 		'<textPath xlink:href="#lower-' +
 		circleID +
-		'" startOffset="62.5%">' +
+		'" startOffset="62.5%" fill="' + textColor + '">' +
+		'</textPath>' +
+		'<textPath xlink:href="#lower-' +
+		circleID +
+		'" startOffset="62.5%" fill="#FFF" fill-opacity="0.1">'+ // style="fill:url(#' + gradientID + ')">' +
 		'</textPath>' +
 		'</text>' +
 		'</svg>'

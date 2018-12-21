@@ -42,26 +42,8 @@
 	left: 4%;
 	margin-top: 2%;
 }
-.coin-upper,
-.coin-lower,
-.coin-upper-shadow,
-.coin-lower-shadow {
-	position: absolute;
-	z-index: 2;
-	width: 100%;
-	left: 1.7%;
-}
-.coin-upper,
-.coin-upper-shadow {
-	top: 3.75%;
-}
-.coin-lower,
-.coin-lower-shadow {
-	bottom: 3.75%;
-}
-.coin-upper,
 .coin-lower {
-	z-index: 3;
+	dominant-baseline: text-before-edge;
 }
 .coin-video video {
 	width: 100%;

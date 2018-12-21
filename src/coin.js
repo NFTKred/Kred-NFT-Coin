@@ -264,25 +264,16 @@ function cleanAttribute(attr) {
 
 function getTextSVG(textColor, instance) {
 	var circleID = 'coin-text-circle-' + instance;
-	var gradientID = 'coin-text-gradient-' + instance;
 
 	return (
-		'<svg version="1.1" class="coin-text" width="100%" height="100%" ' +
-		'viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">' +
+		'<svg class="coin-text" width="100%" height="100%" viewBox="0 0 100 100">' +
 		'<defs>' +
-		// '<radialGradient spreadMethod="pad" gradientTransform="userSpaceOnUse" id="' +
-		// gradientID +
-		// '">' +
-		// '<stop offset="84%" stop-color="#fff" stop-opacity=".1"/>'+
-		// '<stop offset="88%" stop-color="#fff" stop-opacity=".4"/>'+
-		// '<stop offset="92%" stop-color="#fff" stop-opacity=".1"/>'+
-		// '</radialGradient>'+
 		'<path id="upper-' +
 		circleID +
 		'" d="M13,50a39,39 0 1 1 78 0a39 39 0 1 1 -78 0a39 39 0 1 1 78 0a39 39 0 1 1 -78 0"/>' +
 		'<path id="lower-' +
 		circleID +
-		'" d="M7,50a45,45 0 1,0 90,0a45,45 0 1,0 -90,0a45,45 0 1,0 90,0a45,45 0 1,0 -90,0"/>' +
+		'" d="M14,49a38,38 0 1,0 76,0a38,38 0 1,0 -76,0a38,38 0 1,0 76,0a38,38 0 1,0 -76,0"/>' +
 		'</defs>' +
 		'<text style="font-size: 8px; text-anchor: middle">' +
 		'<textPath xlink:href="#upper-' +
@@ -293,11 +284,11 @@ function getTextSVG(textColor, instance) {
 		circleID +
 		'" startOffset="62.5%" fill="#FFF" fill-opacity="0.1">'+ // style="fill:url(#' + gradientID + ')">' +
 		'</textPath>' +
-		'<textPath xlink:href="#lower-' +
+		'<textPath class="coin-lower" xlink:href="#lower-' +
 		circleID +
 		'" startOffset="62.5%" fill="' + textColor + '">' +
 		'</textPath>' +
-		'<textPath xlink:href="#lower-' +
+		'<textPath class="coin-lower" xlink:href="#lower-' +
 		circleID +
 		'" startOffset="62.5%" fill="#FFF" fill-opacity="0.1">'+ // style="fill:url(#' + gradientID + ')">' +
 		'</textPath>' +

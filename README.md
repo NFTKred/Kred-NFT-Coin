@@ -1,6 +1,6 @@
 # Coin
 
-A JavaScript widget to handle rendering a single coin.
+A library to render a single coin, using JavaScript, CSS, and SVG.
 
 ## Installation
 

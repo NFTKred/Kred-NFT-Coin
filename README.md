@@ -1,6 +1,6 @@
 # Coin
 
-A JavaScript widget to handle rendering a CryptoKred coin.
+A JavaScript widget to handle rendering a single coin.
 
 ## Installation
 
